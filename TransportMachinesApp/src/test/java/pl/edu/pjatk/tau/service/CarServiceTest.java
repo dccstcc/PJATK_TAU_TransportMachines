@@ -2,6 +2,7 @@ package pl.edu.pjatk.tau.service;
 
 import pl.edu.pjatk.tau.domain.Car;
 import pl.edu.pjatk.tau.domain.factory.BMW.BMWFactory;
+import pl.edu.pjatk.tau.domain.factory.Citroen.CitroenFactory;
 
 import java.util.TreeMap;
 
@@ -43,5 +44,12 @@ public class CarServiceTest {
 	public void shouldThrowExceptionForReadCarWhichNotExist() {
 		exception.expect(IndexOutOfBoundsException.class);
 		carService.readById(3);
+	}
+	
+	@Test
+	public void shouldAddNewCarIntoDatabase() {
+		Car car = new Car(1, new CitroenFactory());
+		carService.create(car);
+		assertNotNull(carService.readById(1));
 	}
 }

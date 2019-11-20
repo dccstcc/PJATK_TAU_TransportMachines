@@ -5,4 +5,5 @@ import pl.edu.pjatk.tau.domain.Car;
 public interface ICarService{
 		
 	public Car readById(int id);
+	public int create(Car car);
 }

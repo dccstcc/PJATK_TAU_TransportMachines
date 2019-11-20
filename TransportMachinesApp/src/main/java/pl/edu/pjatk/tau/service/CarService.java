@@ -22,4 +22,9 @@ public class CarService implements ICarService{
 		}
 		return result;
 	}
+	
+	public int create(Car car) {
+		cars.put(car.getId(), car);
+		return 1;
+	}
 }
