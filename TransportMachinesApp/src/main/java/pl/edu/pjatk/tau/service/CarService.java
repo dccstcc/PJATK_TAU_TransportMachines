@@ -1,13 +1,25 @@
 package pl.edu.pjatk.tau.service;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import pl.edu.pjatk.tau.domain.Car;
-import pl.edu.pjatk.tau.domain.factory.BMW.BMWFactory;
 
 public class CarService implements ICarService{
-
+	
+	CarDb db = new CarDb();
+	TreeMap<Integer, Car> cars = db.getDb();
+	
 	public Car readById(int id) {
-		Car car = new Car(1, new BMWFactory());
-		carsDb.put(1, car);
-		return carsDb.get(1);
+		Car result = new Car();
+		for(Map.Entry<Integer, Car> entry : cars.entrySet()) {
+			if(entry.getKey().equals(id)) {
+				result = cars.get(id);
+			} else {
+				throw new IndexOutOfBoundsException();
+			}
+				
+		}
+		return result;
 	}
 }
