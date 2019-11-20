@@ -3,9 +3,11 @@ package pl.edu.pjatk.tau.service;
 import pl.edu.pjatk.tau.domain.Car;
 import pl.edu.pjatk.tau.domain.factory.BMW.BMWFactory;
 import pl.edu.pjatk.tau.domain.factory.Citroen.CitroenFactory;
+import pl.edu.pjatk.tau.domain.factory.Renault.RenaultFactory;
 
 import java.util.TreeMap;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -18,10 +20,20 @@ import static org.junit.Assert.*;
 public class CarServiceTest {
 	
 	public static CarService carService;
+	public static Car car1;
+	public static Car car2;
+	public static Car car3;
 	
 	@BeforeClass
 	public static void initCarServiceClass() {
 		carService = new CarService();
+	}
+	
+	@Before
+	public void initSampleTestCars() {
+		car1 = new Car(1, new BMWFactory());
+		car2 = new Car(2, new CitroenFactory());
+		car3 = new Car(3, new RenaultFactory());
 	}
 	
 	@Rule
@@ -35,8 +47,8 @@ public class CarServiceTest {
 
 	@Test
 	public void ShouldReturnCarOfKnownId() {
-		Car car = new Car(1, new BMWFactory());
-		carService.cars.put(1, car);
+		//Car car = new Car(1, new BMWFactory());
+		carService.cars.put(1, car1);
 		assertNotNull(carService.readById(1));
 	}
 
@@ -48,8 +60,15 @@ public class CarServiceTest {
 	
 	@Test
 	public void shouldAddNewCarIntoDatabase() {
-		Car car = new Car(1, new CitroenFactory());
-		carService.create(car);
+		//Car car = new Car(1, new CitroenFactory());
+		carService.create(car1);
 		assertNotNull(carService.readById(1));
 	}
+	
+	/*
+	@Test
+	public void shouldAddNewCarWithUniqueIdIntoDatabase() {
+		Car car
+	}
+	*/
 }

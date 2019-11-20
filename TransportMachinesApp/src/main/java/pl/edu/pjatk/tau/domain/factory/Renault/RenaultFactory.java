@@ -5,7 +5,7 @@ import pl.edu.pjatk.tau.domain.factory.CustomerData;
 import pl.edu.pjatk.tau.domain.factory.ProducentData;
 import pl.edu.pjatk.tau.domain.factory.TechnicalData;
 
-public class ReanultFactory implements CarFactory {
+public class RenaultFactory implements CarFactory {
 		
 	public ProducentData createProducentData() {
 		ProducentData pd = new RenaultProducentData();
