@@ -11,7 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
-//import org.hamcrest.*;
+import static org.hamcrest.Matchers.*;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
@@ -79,7 +79,7 @@ public class CarServiceTest {
 		carService.create(renault);
 		carService.create(renault);
 		carService.create(renault);
-		assertEquals(carService.getCars().size(), 3);
+		assertEquals(3, carService.getCars().size());
 	}
 	
 	@Test
@@ -92,6 +92,12 @@ public class CarServiceTest {
 		assertSame(carService.readById(7), car7);
 	}
 	
+	@Test
+	public void shouldSetCorrectIdForTheSameIdCars() {
+		carService.create(citroen);
+		carService.create(citroen);
+		carService.create(citroen);
+		assertThat(carService.getCars().keySet(), hasItems(0,1,2));		
+	}
 	
-	//assertEquals(carService.create(bmw), 1);
 }
