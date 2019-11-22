@@ -81,7 +81,7 @@ public class CarServiceTest {
 		carService.create(renault);
 		assertEquals(carService.getCars().size(), 3);
 	}
-	@Ignore
+	
 	@Test
 	public void shouldReturnTheSameCarWhichWasGivenForAddIntoDatabase() {
 		carService.create(renault);

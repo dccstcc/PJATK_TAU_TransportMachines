@@ -71,18 +71,6 @@ public class CarService implements ICarService{
 				}
 			}
 			
-			/*
-			// create ascending array of keys
-			int freeId = 0;
-			for(Map.Entry<Integer, Car> entry : this.getCars().entrySet()) {
-				if(freeId == entry.getKey()) {
-					keys.add(entry.getKey());
-				} else {
-					keys.add(-1);				
-				}
-				freeId++;
-			}		
-			*/
 			
 			//find free key
 			int freeKey = 0;
@@ -98,7 +86,8 @@ public class CarService implements ICarService{
 			
 			
 		}
-		  
+		
+		//set unique id and add car to database
 		car.setId(id);
 		this.getCars().put(id, car);
 		return returnCode;
