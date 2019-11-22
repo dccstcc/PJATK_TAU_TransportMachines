@@ -7,22 +7,25 @@ import pl.edu.pjatk.tau.domain.factory.Renault.RenaultFactory;
 
 import java.util.TreeMap;
 
+import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Rule;
 //import org.hamcrest.*;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import static org.junit.Assert.*;
 
+@RunWith(JUnit4.class)
 public class CarServiceTest {
 	
-	public static CarService carService;
-	public static Car bmw;
-	public static Car citroen;
-	public static Car renault;
+	private CarService carService;
+	private Car bmw;
+	private Car citroen;
+	private Car renault;
 	
 	@Before
 	public void initCarServiceClass() {
@@ -31,9 +34,17 @@ public class CarServiceTest {
 	
 	@Before
 	public void initSampleTestCars() {
-		bmw = new Car(1, new BMWFactory());
-		citroen = new Car(2, new CitroenFactory());
-		renault = new Car(3, new RenaultFactory());
+		bmw = new Car(0, new BMWFactory());
+		citroen = new Car(1, new CitroenFactory());
+		renault = new Car(2, new RenaultFactory());
+	}
+	
+	@After
+	public void clearAllData() {
+		carService.getCars().clear();
+		bmw = null;
+		citroen = null;
+		renault = null;	
 	}
 	
 	@Rule
@@ -47,8 +58,8 @@ public class CarServiceTest {
 
 	@Test
 	public void ShouldReturnCarOfKnownId() {
-		carService.getCars().put(1, bmw);
-		assertNotNull(carService.readById(1));
+		carService.getCars().put(0, bmw);
+		assertNotNull(carService.readById(0));
 	}
 
 	@Test
@@ -60,15 +71,27 @@ public class CarServiceTest {
 	@Test
 	public void shouldAddNewCarIntoDatabase() {
 		carService.create(bmw);
-		assertNotNull(carService.readById(1));
+		assertNotNull(carService.readById(0));
 	}
 	
 	@Test
 	public void shouldAddNewCarWithTheSameIdIntoDatabase() {
-		carService.create(citroen);
-		carService.create(citroen);
-		carService.create(citroen);
+		carService.create(renault);
+		carService.create(renault);
+		carService.create(renault);
 		assertEquals(carService.getCars().size(), 3);
 	}
+	@Ignore
+	@Test
+	public void shouldReturnTheSameCarWhichWasGivenForAddIntoDatabase() {
+		carService.create(renault);
+		Car car7 = new Car(7, new BMWFactory());
+		carService.create(car7);
+		carService.create(bmw);
+		carService.create(citroen);
+		assertSame(carService.readById(7), car7);
+	}
 	
+	
+	//assertEquals(carService.create(bmw), 1);
 }

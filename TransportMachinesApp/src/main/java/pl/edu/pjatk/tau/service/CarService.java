@@ -2,7 +2,6 @@ package pl.edu.pjatk.tau.service;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Objects;
 import java.util.TreeMap;
 
 import pl.edu.pjatk.tau.domain.Car;
@@ -20,9 +19,9 @@ public class CarService implements ICarService{
 	public Car readById(int id) {
 		boolean throwException = true;
 		Car result = new Car();
-		for(Map.Entry<Integer, Car> entry : cars.entrySet()) {
+		for(Map.Entry<Integer, Car> entry : this.getCars().entrySet()) {
 			if(entry.getKey().equals(id)) {
-				result = cars.get(id);
+				result = this.getCars().get(id);
 				throwException = false;
 				break;
 			} 
@@ -64,24 +63,40 @@ public class CarService implements ICarService{
 		if(doubleKeys) {
 			
 			// create ascending array of keys
-			int nullId = 1;
+			for(int i = 0; i <= this.getCars().lastKey(); i++ ) {
+				if(this.getCars().containsKey(i)) {
+					keys.add(i);
+				} else {
+					keys.add(-1);
+				}
+			}
+			
+			/*
+			// create ascending array of keys
+			int freeId = 0;
 			for(Map.Entry<Integer, Car> entry : this.getCars().entrySet()) {
-				if(nullId == entry.getKey()) {
+				if(freeId == entry.getKey()) {
 					keys.add(entry.getKey());
 				} else {
-					keys.add(null);				
+					keys.add(-1);				
 				}
-				nullId++;
+				freeId++;
 			}		
+			*/
 			
+			//find free key
 			int freeKey = 0;
-			for(Object key : keys) {
-				freeKey++;
-				if(Objects.isNull(key)) 
+			for(int key : keys) {
+				if(key == -1) {
 					id = freeKey;
 					returnCode = 2;
 					break;
+				}
+				freeKey++;
 			}
+			if(freeKey == keys.size()) id = ++freeKey;
+			
+			
 		}
 		  
 		car.setId(id);
