@@ -20,20 +20,20 @@ import static org.junit.Assert.*;
 public class CarServiceTest {
 	
 	public static CarService carService;
-	public static Car car1;
-	public static Car car2;
-	public static Car car3;
+	public static Car bmw;
+	public static Car citroen;
+	public static Car renault;
 	
-	@BeforeClass
-	public static void initCarServiceClass() {
+	@Before
+	public void initCarServiceClass() {
 		carService = new CarService();
 	}
 	
 	@Before
 	public void initSampleTestCars() {
-		car1 = new Car(1, new BMWFactory());
-		car2 = new Car(2, new CitroenFactory());
-		car3 = new Car(3, new RenaultFactory());
+		bmw = new Car(1, new BMWFactory());
+		citroen = new Car(2, new CitroenFactory());
+		renault = new Car(3, new RenaultFactory());
 	}
 	
 	@Rule
@@ -47,8 +47,7 @@ public class CarServiceTest {
 
 	@Test
 	public void ShouldReturnCarOfKnownId() {
-		//Car car = new Car(1, new BMWFactory());
-		carService.cars.put(1, car1);
+		carService.getCars().put(1, bmw);
 		assertNotNull(carService.readById(1));
 	}
 
@@ -60,15 +59,16 @@ public class CarServiceTest {
 	
 	@Test
 	public void shouldAddNewCarIntoDatabase() {
-		//Car car = new Car(1, new CitroenFactory());
-		carService.create(car1);
+		carService.create(bmw);
 		assertNotNull(carService.readById(1));
 	}
 	
-	/*
 	@Test
-	public void shouldAddNewCarWithUniqueIdIntoDatabase() {
-		Car car
+	public void shouldAddNewCarWithTheSameIdIntoDatabase() {
+		carService.create(citroen);
+		carService.create(citroen);
+		carService.create(citroen);
+		assertEquals(carService.getCars().size(), 3);
 	}
-	*/
+	
 }
