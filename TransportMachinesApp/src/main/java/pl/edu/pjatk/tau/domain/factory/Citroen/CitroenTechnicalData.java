@@ -7,6 +7,7 @@ public class CitroenTechnicalData implements TechnicalData{
 	
 	
 	public Car getTechnicalData() {
+		initializeTechnicalData();
 		return car;
 	}
 	

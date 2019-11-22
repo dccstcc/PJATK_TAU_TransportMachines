@@ -7,6 +7,7 @@ public class BMWTechnicalData implements TechnicalData{
 	
 	
 	public Car getTechnicalData() {
+		initializeTechnicalData();
 		return car;
 	}
 	

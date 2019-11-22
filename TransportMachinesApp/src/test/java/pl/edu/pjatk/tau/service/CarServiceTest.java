@@ -28,7 +28,7 @@ public class CarServiceTest {
 	private Car renault;
 	
 	@Before
-	public void initCarServiceClass() {
+	public void initTestObject() {
 		carService = new CarService();
 	}
 	
@@ -98,6 +98,16 @@ public class CarServiceTest {
 		carService.create(citroen);
 		carService.create(citroen);
 		assertThat(carService.getCars().keySet(), hasItems(0,1,2));		
+	}
+	
+	@Test
+	public void shouldNotModifyFieldsOfAddedCar() {
+		carService.create(bmw);
+		assertEquals("X3", carService.readById(0).getModel());
+		carService.create(citroen);
+		assertEquals("Automatic", carService.readById(1).getGearboxType());
+		carService.create(renault);
+		assertEquals(65000, carService.readById(2).getPrice());
 	}
 	
 }

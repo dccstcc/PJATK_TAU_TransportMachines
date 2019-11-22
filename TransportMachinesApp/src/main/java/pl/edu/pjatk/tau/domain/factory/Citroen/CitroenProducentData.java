@@ -7,6 +7,7 @@ public class CitroenProducentData implements ProducentData{
 	
 	
 	public Car getProducentData() {
+		initializeProducentData();
 		return car;
 	}
 	

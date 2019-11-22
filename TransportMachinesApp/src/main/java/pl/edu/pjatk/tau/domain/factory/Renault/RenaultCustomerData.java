@@ -6,6 +6,7 @@ import pl.edu.pjatk.tau.domain.factory.CustomerData;
 public class RenaultCustomerData implements CustomerData{
 	
 	public Car getCustomerData() {
+		initializeCustomerData();
 		return car;
 	}
 	
