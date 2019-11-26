@@ -5,6 +5,7 @@ import pl.edu.pjatk.tau.domain.factory.BMW.BMWFactory;
 import pl.edu.pjatk.tau.domain.factory.Citroen.CitroenFactory;
 import pl.edu.pjatk.tau.domain.factory.Renault.RenaultFactory;
 
+import java.util.Arrays;
 import java.util.TreeMap;
 
 import org.junit.After;
@@ -93,11 +94,15 @@ public class CarServiceTest {
 	}
 	
 	@Test
-	public void shouldSetCorrectIdForTheSameIdCars() {
+	public void shouldSetCorrectIdForTheCarsWithSameIdIntoCarsObjects() {
 		carService.create(citroen);
+		assertEquals(1, carService.getCars().get(1).getId());
+
 		carService.create(citroen);
+		assertEquals(0, carService.getCars().get(0).getId());
+		
 		carService.create(citroen);
-		assertThat(carService.getCars().keySet(), hasItems(0,1,2));		
+		assertEquals(2, carService.getCars().get(2).getId());	
 	}
 	
 	@Test
@@ -109,5 +114,16 @@ public class CarServiceTest {
 		carService.create(renault);
 		assertEquals(65000, carService.readById(2).getPrice());
 	}
+	
+	@Test
+	public void shouldSetCorrectIdForTheCarsWithSameIdIntoDatabase() {
+		carService.create(renault);
+		carService.create(renault);
+		carService.create(renault);
+		assertThat(carService.getCars().keySet(), hasItems(0,1,2));		
+	}
+
+	
+	
 	
 }

@@ -40,7 +40,7 @@ public class CarService implements ICarService{
 		boolean singleKeys = false;
 		ArrayList<Integer> keys = new ArrayList<Integer>();
 		int returnCode = -1;
-		
+				
 		//add car only if car.id is unique else run loop for double keys
 		for(Map.Entry<Integer, Car> entry : this.getCars().entrySet()) {
 			if( ! entry.getKey().equals(car.getId())) {
@@ -53,10 +53,17 @@ public class CarService implements ICarService{
 			}
 		}
 		
+		//add car if database is empty
+		if(this.getCars().isEmpty()) {
+			id = car.getId();
+
+			returnCode = 1;
+		}
+		
 		//keys are unique; add Car
 		if(singleKeys) {
 			id = car.getId();
-			returnCode = 1;
+			returnCode = 2;
 		}
 		
 		//key are double
@@ -66,6 +73,7 @@ public class CarService implements ICarService{
 			for(int i = 0; i <= this.getCars().lastKey(); i++ ) {
 				if(this.getCars().containsKey(i)) {
 					keys.add(i);
+
 				} else {
 					keys.add(-1);
 				}
@@ -77,14 +85,12 @@ public class CarService implements ICarService{
 			for(int key : keys) {
 				if(key == -1) {
 					id = freeKey;
-					returnCode = 2;
+					returnCode = 3;
 					break;
 				}
 				freeKey++;
 			}
-			if(freeKey == keys.size()) id = ++freeKey;
-			
-			
+			id = freeKey;		
 		}
 		
 		//set unique id and add car to database
