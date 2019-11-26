@@ -238,4 +238,42 @@ public class CarServiceTest {
 		
 		assertEquals(2, carService.getCars().descendingKeySet().size());
 	}
+	
+	@Test
+	public void shouldDeleteAllCarsFromDatabase() {
+		carService.create(bmw);
+		carService.create(citroen);
+		carService.create(renault);
+
+		bmw = carService.readById(0);
+		citroen = carService.readById(1);
+		renault = carService.readById(2);
+
+		carService.delete(bmw);
+		assertEquals(2, carService.getCars().descendingKeySet().size());
+		carService.delete(citroen);
+		assertEquals(1, carService.getCars().descendingKeySet().size());
+		carService.delete(renault);
+		assertEquals(0, carService.getCars().descendingKeySet().size());
+	}
+	
+	@Ignore
+	@Test
+	public void shouldStayDatabaseEmpty() {
+		carService.create(citroen);
+		carService.create(citroen);
+		carService.create(citroen);
+		carService.create(citroen);
+
+		citroen = carService.readById(0);
+		carService.delete(citroen);
+		citroen = carService.readById(1);
+		carService.delete(citroen);
+		citroen = carService.readById(2);
+		carService.delete(citroen);
+		citroen = carService.readById(3);
+		carService.delete(citroen);
+
+		assertTrue(carService.getCars().isEmpty());
+	}
 }
