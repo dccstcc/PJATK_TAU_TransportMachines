@@ -146,6 +146,19 @@ public class CarService implements ICarService{
 		
 		if(this.getCars().isEmpty()) throw new NullPointerException();
 
+		for(Map.Entry<Integer, Car> entry : this.getCars().entrySet()) {
+			if(car.getId() == entry.getKey())  {
+				
+				throwExc = false;
+				
+				//entry.setValue(car);
+				
+				returnCode = 1;
+			}
+		}
+		
+		if(throwExc) throw new NoSuchElementException();
+		
 		return returnCode;
 	}
 }

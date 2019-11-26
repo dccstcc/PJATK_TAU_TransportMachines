@@ -224,6 +224,7 @@ public class CarServiceTest {
 	@Test
 	public void shouldThrowExceptionWhenTryToDeleteCarWhichNotExist() {
 		exception.expect(NoSuchElementException.class);
-		carService.delete(bmw);
+		carService.create(citroen);
+		carService.delete(renault);
 	}
 }
