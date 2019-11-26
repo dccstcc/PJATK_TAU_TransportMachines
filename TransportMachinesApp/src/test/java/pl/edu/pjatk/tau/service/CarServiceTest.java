@@ -157,6 +157,13 @@ public class CarServiceTest {
 	@Test
 	public void shouldThrowExceptionIfCarDoNotExist() {
 		exception.expect(NoSuchElementException.class);
+		carService.create(bmw);
 		carService.update(citroen);
+	}
+	
+	@Test
+	public void shouldThrowExceptionIfUpdateCarOnEmptyDatabase() {
+		exception.expect(NullPointerException.class);
+		carService.update(renault);
 	}
 }

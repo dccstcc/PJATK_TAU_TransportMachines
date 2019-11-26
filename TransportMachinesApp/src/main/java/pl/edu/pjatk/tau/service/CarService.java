@@ -119,7 +119,9 @@ public class CarService implements ICarService{
 		
 		int returnCode = -1;
 		boolean throwExc = true;
-				
+		
+		if(this.getCars().isEmpty()) throw new NullPointerException();
+		
 		for(Map.Entry<Integer, Car> entry : this.getCars().entrySet()) {
 			if(car.getId() == entry.getKey()) throwExc = false;
 		}
