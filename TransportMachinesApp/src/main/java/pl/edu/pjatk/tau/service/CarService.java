@@ -143,6 +143,7 @@ public class CarService implements ICarService{
 		
 		int returnCode = -1;
 		boolean throwExc = true;
+		int id = -1;
 		
 		if(this.getCars().isEmpty()) throw new NullPointerException();
 
@@ -151,14 +152,17 @@ public class CarService implements ICarService{
 				
 				throwExc = false;
 				
-				//entry.setValue(car);
+				id = entry.getKey();
+				this.getCars().remove(id);
 				
 				returnCode = 1;
+				
+				break;
 			}
 		}
 		
 		if(throwExc) throw new NoSuchElementException();
-		
+	
 		return returnCode;
 	}
 }

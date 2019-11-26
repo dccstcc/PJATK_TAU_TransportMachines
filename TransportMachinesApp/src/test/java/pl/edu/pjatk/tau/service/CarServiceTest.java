@@ -220,11 +220,22 @@ public class CarServiceTest {
 		carService.delete(bmw);
 	}
 	
-	@Ignore
 	@Test
 	public void shouldThrowExceptionWhenTryToDeleteCarWhichNotExist() {
 		exception.expect(NoSuchElementException.class);
 		carService.create(citroen);
 		carService.delete(renault);
+	}
+	
+	@Test
+	public void shouldDeleteExistingCarWithGivenIdFromDatabase() {
+		carService.create(bmw);
+		carService.create(bmw);
+		carService.create(bmw);
+		
+		bmw = carService.readById(1);
+		carService.delete(bmw);
+		
+		assertEquals(2, carService.getCars().descendingKeySet().size());
 	}
 }
