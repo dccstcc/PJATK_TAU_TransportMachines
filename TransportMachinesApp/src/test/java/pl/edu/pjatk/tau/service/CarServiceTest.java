@@ -5,7 +5,7 @@ import pl.edu.pjatk.tau.domain.factory.BMW.BMWFactory;
 import pl.edu.pjatk.tau.domain.factory.Citroen.CitroenFactory;
 import pl.edu.pjatk.tau.domain.factory.Renault.RenaultFactory;
 
-import java.util.Arrays;
+import java.util.NoSuchElementException;
 import java.util.TreeMap;
 
 import org.junit.After;
@@ -152,5 +152,11 @@ public class CarServiceTest {
 		assertEquals("C", carService.readAll().get(2).getSegmentType());
 		assertEquals("BMW", carService.readAll().get(3).getMark());
 		assertEquals("White", carService.readAll().get(3).getColor());		
+	}
+	
+	@Test
+	public void shouldThrowExceptionIfCarDoNotExist() {
+		exception.expect(NoSuchElementException.class);
+		carService.update(citroen);
 	}
 }

@@ -2,18 +2,24 @@ package pl.edu.pjatk.tau.service;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.TreeMap;
 
 import pl.edu.pjatk.tau.domain.Car;
 
 public class CarService implements ICarService{
 	
+	
 	private CarDb db = new CarDb();
 	private TreeMap<Integer, Car> cars = db.getDb();
+	
+	
 	
 	public TreeMap<Integer, Car> getCars() {
 		return cars;
 	}
+	
+	
 	
 	// return car of given id or throw exception if car don't exist
 	public Car readById(int id) {
@@ -32,8 +38,9 @@ public class CarService implements ICarService{
 		return result;
 	}
 	
+	
+	
 	public int create(Car car) {
-		
 		
 		int id = 0;
 		boolean doubleKeys = false;
@@ -99,8 +106,26 @@ public class CarService implements ICarService{
 		return returnCode;
 	}
 	
+	
+	
 	public TreeMap<Integer, Car> readAll() {
 		if(this.getCars().isEmpty()) throw new NullPointerException();
 		return this.getCars();
+	}
+	
+	
+	
+	public int update(Car car) {
+		
+		int returnCode = -1;
+		boolean throwExc = true;
+				
+		for(Map.Entry<Integer, Car> entry : this.getCars().entrySet()) {
+			if(car.getId() == entry.getKey()) throwExc = false;
+		}
+		
+		if(throwExc) throw new NoSuchElementException();
+		
+		return returnCode;
 	}
 }
