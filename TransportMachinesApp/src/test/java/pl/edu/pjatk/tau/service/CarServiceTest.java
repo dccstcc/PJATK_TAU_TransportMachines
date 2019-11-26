@@ -276,4 +276,23 @@ public class CarServiceTest {
 
 		assertTrue(carService.getCars().isEmpty());
 	}
+	
+	@Test
+	public void shouldDeleteApprioprateCarFromDatabase() {
+		carService.create(bmw);
+		carService.create(citroen);
+		carService.create(renault);
+
+		assertEquals("BMW", carService.readById(0).getMark());
+		assertEquals("Citroen", carService.readById(1).getMark());
+		assertEquals("Renault", carService.readById(2).getMark());
+		
+		citroen = carService.readById(1);
+		carService.delete(citroen);
+		assertEquals(2, carService.getCars().descendingKeySet().size());
+		assertEquals("BMW", carService.readById(0).getMark());
+		assertEquals("Renault", carService.readById(2).getMark());
+		
+
+	}
 }
