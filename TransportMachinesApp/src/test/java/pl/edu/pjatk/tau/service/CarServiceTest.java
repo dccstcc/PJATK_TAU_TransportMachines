@@ -193,4 +193,13 @@ public class CarServiceTest {
 		Car bmw_4 = new Car(4, new BMWFactory());
 		carService.update(bmw_4);
 	}
+	
+	@Test
+	public void shouldReplaceDifferentCarsWithTheSameId() {
+		carService.create(renault);
+		assertEquals("Renault", carService.readAll().get(2).getMark());
+		bmw.setId(2);
+		carService.update(bmw);
+		assertEquals("BMW", carService.readAll().get(2).getMark());
+	}
 }
