@@ -135,8 +135,22 @@ public class CarServiceTest {
 		carService.create(renault);
 		carService.create(renault);
 		carService.create(citroen);
-		assertEquals(4, carService.getCars().size());
+		assertEquals(4, carService.readAll().size());
 	}
 	
-	
+	@Test
+	public void shouldReturnDatabaseWithNotModifiedCars() {
+		carService.create(citroen);
+		carService.create(bmw);
+		carService.create(renault);
+		carService.create(bmw);
+		assertEquals("BMW", carService.readAll().get(0).getMark());
+		assertEquals("Diesel", carService.readAll().get(0).getEngineType());
+		assertEquals("Citroen", carService.readAll().get(1).getMark());
+		assertEquals("Petrol", carService.readAll().get(1).getEngineType());
+		assertEquals("Renault", carService.readAll().get(2).getMark());
+		assertEquals("C", carService.readAll().get(2).getSegmentType());
+		assertEquals("BMW", carService.readAll().get(3).getMark());
+		assertEquals("White", carService.readAll().get(3).getColor());		
+	}
 }
