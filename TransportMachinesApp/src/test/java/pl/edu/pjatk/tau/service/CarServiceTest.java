@@ -175,4 +175,14 @@ public class CarServiceTest {
 		carService.update(bmw);
 		assertEquals(75000, carService.readAll().get(0).getPrice());
 	}
+	
+	@Test
+	public void shouldUpdateCarWithoutChangeDefaultFields() {
+		carService.create(citroen);
+		assertEquals("C5", carService.readAll().get(1).getModel());
+		citroen.setModel("C4 Cactus");
+		carService.update(citroen);
+		assertEquals("C4 Cactus", carService.readAll().get(1).getModel());
+		assertEquals("Automatic", carService.readAll().get(1).getGearboxType());
+	}
 }
