@@ -214,4 +214,16 @@ public class CarServiceTest {
 		assertEquals("BMW", carService.readAll().get(2).getMark());
 		assertEquals("BMW", carService.readAll().get(0).getMark());
 	}
+	
+	public void shouldThrowExceptionWhenTryToDoDeleteOnEmptyDatabase() {
+		exception.expect(NullPointerException.class);
+		carService.delete(bmw);
+	}
+	
+	@Ignore
+	@Test
+	public void shouldThrowExceptionWhenTryToDeleteCarWhichNotExist() {
+		exception.expect(NoSuchElementException.class);
+		carService.delete(bmw);
+	}
 }

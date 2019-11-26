@@ -11,4 +11,5 @@ public interface ICarService{
 	public int create(Car car);
 	public TreeMap<Integer, Car> readAll();
 	public int update(Car car);
+	public int delete(Car car);
 }

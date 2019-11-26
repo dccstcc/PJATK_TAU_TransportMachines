@@ -137,4 +137,15 @@ public class CarService implements ICarService{
 		
 		return returnCode;
 	}
+	
+	
+	public int delete(Car car) {
+		
+		int returnCode = -1;
+		boolean throwExc = true;
+		
+		if(this.getCars().isEmpty()) throw new NullPointerException();
+
+		return returnCode;
+	}
 }
