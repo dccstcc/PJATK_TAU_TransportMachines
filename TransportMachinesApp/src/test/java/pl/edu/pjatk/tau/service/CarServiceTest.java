@@ -185,4 +185,12 @@ public class CarServiceTest {
 		assertEquals("C4 Cactus", carService.readAll().get(1).getModel());
 		assertEquals("Automatic", carService.readAll().get(1).getGearboxType());
 	}
+	
+	@Test
+	public void shouldThrowExceptionIfIdsAreDifferent() {
+		exception.expect(NoSuchElementException.class);
+		carService.create(renault);
+		Car bmw_4 = new Car(4, new BMWFactory());
+		carService.update(bmw_4);
+	}
 }
