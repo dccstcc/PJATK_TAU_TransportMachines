@@ -98,4 +98,9 @@ public class CarService implements ICarService{
 		this.getCars().put(id, car);
 		return returnCode;
 	}
+	
+	public TreeMap<Integer, Car> readAll() {
+		if(this.getCars().isEmpty()) throw new NullPointerException();
+		return this.getCars();
+	}
 }

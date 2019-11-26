@@ -96,13 +96,13 @@ public class CarServiceTest {
 	@Test
 	public void shouldSetCorrectIdForTheCarsWithSameIdIntoCarsObjects() {
 		carService.create(citroen);
-		assertEquals(1, carService.getCars().get(1).getId());
+		assertEquals(1, carService.readById(1).getId());
 
 		carService.create(citroen);
-		assertEquals(0, carService.getCars().get(0).getId());
+		assertEquals(0, carService.readById(0).getId());
 		
 		carService.create(citroen);
-		assertEquals(2, carService.getCars().get(2).getId());	
+		assertEquals(2, carService.readById(2).getId());	
 	}
 	
 	@Test
@@ -123,6 +123,12 @@ public class CarServiceTest {
 		assertThat(carService.getCars().keySet(), hasItems(0,1,2));		
 	}
 
+	@Test
+	public void shouldThrowExceptionIfCollectionIsEmpty() {
+		exception.expect(NullPointerException.class);
+		carService.readAll();
+	}
+	
 	
 	
 	

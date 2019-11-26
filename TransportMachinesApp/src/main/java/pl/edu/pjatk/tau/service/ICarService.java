@@ -9,4 +9,5 @@ public interface ICarService{
 	public TreeMap<Integer, Car> getCars();
 	public Car readById(int id);
 	public int create(Car car);
+	public TreeMap<Integer, Car> readAll();
 }
