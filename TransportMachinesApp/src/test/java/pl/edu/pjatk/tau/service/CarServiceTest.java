@@ -166,4 +166,13 @@ public class CarServiceTest {
 		exception.expect(NullPointerException.class);
 		carService.update(renault);
 	}
+	
+	@Test
+	public void shouldUpdateCarWithTheSameId() {
+		carService.create(bmw);
+		assertEquals(90000, carService.readAll().get(0).getPrice());
+		bmw.setPrice(75000);
+		carService.update(bmw);
+		assertEquals(75000, carService.readAll().get(0).getPrice());
+	}
 }
