@@ -129,7 +129,14 @@ public class CarServiceTest {
 		carService.readAll();
 	}
 	
-	
+	@Test
+	public void shouldReturnAllAddedCars() {
+		carService.create(bmw);
+		carService.create(renault);
+		carService.create(renault);
+		carService.create(citroen);
+		assertEquals(4, carService.getCars().size());
+	}
 	
 	
 }
