@@ -171,8 +171,11 @@ public class CarServiceTest {
 	public void shouldUpdateCarWithTheSameId() {
 		carService.create(bmw);
 		assertEquals(90000, carService.readAll().get(0).getPrice());
+		bmw = carService.readById(0);
+		
 		bmw.setPrice(75000);
 		carService.update(bmw);
+		
 		assertEquals(75000, carService.readAll().get(0).getPrice());
 	}
 	
@@ -180,14 +183,18 @@ public class CarServiceTest {
 	public void shouldUpdateCarWithoutChangeDefaultFields() {
 		carService.create(citroen);
 		assertEquals("C5", carService.readAll().get(1).getModel());
+		citroen = carService.readById(1);
+		
 		citroen.setModel("C4 Cactus");
 		carService.update(citroen);
+		
 		assertEquals("C4 Cactus", carService.readAll().get(1).getModel());
 		assertEquals("Automatic", carService.readAll().get(1).getGearboxType());
+		assertEquals(260, carService.readAll().get(1).getMaxSpeed());
 	}
 	
 	@Test
-	public void shouldThrowExceptionIfIdsAreDifferent() {
+	public void shouldThrowExceptionIfCarIdsAreDifferent() {
 		exception.expect(NoSuchElementException.class);
 		carService.create(renault);
 		Car bmw_4 = new Car(4, new BMWFactory());
@@ -195,11 +202,16 @@ public class CarServiceTest {
 	}
 	
 	@Test
-	public void shouldReplaceDifferentCarsWithTheSameId() {
+	public void shouldChangeOnUpdateCarWithTheSameId() {
 		carService.create(renault);
 		assertEquals("Renault", carService.readAll().get(2).getMark());
+		carService.create(bmw);
+		bmw = carService.readById(0);
+		
 		bmw.setId(2);
 		carService.update(bmw);
+		
 		assertEquals("BMW", carService.readAll().get(2).getMark());
+		assertEquals("BMW", carService.readAll().get(0).getMark());
 	}
 }
