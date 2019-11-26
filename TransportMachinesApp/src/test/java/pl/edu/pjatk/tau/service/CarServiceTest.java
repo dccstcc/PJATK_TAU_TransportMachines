@@ -77,9 +77,9 @@ public class CarServiceTest {
 	
 	@Test
 	public void shouldAddNewCarWithTheSameIdIntoDatabase() {
-		carService.create(renault);
-		carService.create(renault);
-		carService.create(renault);
+		carService.create(new Car(0, new RenaultFactory()));
+		carService.create(new Car(0, new RenaultFactory()));
+		carService.create(new Car(0, new RenaultFactory()));
 		assertEquals(3, carService.getCars().size());
 	}
 	
@@ -95,14 +95,14 @@ public class CarServiceTest {
 	
 	@Test
 	public void shouldSetCorrectIdForTheCarsWithSameIdIntoCarsObjects() {
-		carService.create(citroen);
-		assertEquals(1, carService.readById(1).getId());
+		carService.create(new Car(2, new CitroenFactory()));
+		assertEquals(2, carService.readById(2).getId());
 
-		carService.create(citroen);
+		carService.create(new Car(2, new CitroenFactory()));
 		assertEquals(0, carService.readById(0).getId());
 		
-		carService.create(citroen);
-		assertEquals(2, carService.readById(2).getId());	
+		carService.create(new Car(2, new CitroenFactory()));
+		assertEquals(1, carService.readById(1).getId());	
 	}
 	
 	@Test
@@ -117,9 +117,9 @@ public class CarServiceTest {
 	
 	@Test
 	public void shouldSetCorrectIdForTheCarsWithSameIdIntoDatabase() {
-		carService.create(renault);
-		carService.create(renault);
-		carService.create(renault);
+		carService.create(new Car(1, new RenaultFactory()));
+		carService.create(new Car(1, new RenaultFactory()));
+		carService.create(new Car(1, new RenaultFactory()));
 		assertThat(carService.getCars().keySet(), hasItems(0,1,2));		
 	}
 
@@ -133,7 +133,7 @@ public class CarServiceTest {
 	public void shouldReturnAllAddedCars() {
 		carService.create(bmw);
 		carService.create(renault);
-		carService.create(renault);
+		carService.create(new Car(2, new RenaultFactory()));
 		carService.create(citroen);
 		assertEquals(4, carService.readAll().size());
 	}
@@ -143,7 +143,7 @@ public class CarServiceTest {
 		carService.create(citroen);
 		carService.create(bmw);
 		carService.create(renault);
-		carService.create(bmw);
+		carService.create(new Car(3, new BMWFactory()));
 		assertEquals("BMW", carService.readAll().get(0).getMark());
 		assertEquals("Diesel", carService.readAll().get(0).getEngineType());
 		assertEquals("Citroen", carService.readAll().get(1).getMark());
@@ -215,6 +215,7 @@ public class CarServiceTest {
 		assertEquals("BMW", carService.readAll().get(0).getMark());
 	}
 	
+	@Test
 	public void shouldThrowExceptionWhenTryToDoDeleteOnEmptyDatabase() {
 		exception.expect(NullPointerException.class);
 		carService.delete(bmw);
@@ -229,16 +230,16 @@ public class CarServiceTest {
 	
 	@Test
 	public void shouldDeleteExistingCarWithGivenIdFromDatabase() {
-		carService.create(bmw);
-		carService.create(bmw);
-		carService.create(bmw);
+		carService.create(new Car(0, new BMWFactory()));
+		carService.create(new Car(1, new BMWFactory()));
+		carService.create(new Car(2, new BMWFactory()));
 		
 		bmw = carService.readById(1);
 		carService.delete(bmw);
 		
 		assertEquals(2, carService.getCars().descendingKeySet().size());
 	}
-	
+
 	@Test
 	public void shouldDeleteAllCarsFromDatabase() {
 		carService.create(bmw);
@@ -257,13 +258,12 @@ public class CarServiceTest {
 		assertEquals(0, carService.getCars().descendingKeySet().size());
 	}
 	
-	@Ignore
 	@Test
 	public void shouldStayDatabaseEmpty() {
-		carService.create(citroen);
-		carService.create(citroen);
-		carService.create(citroen);
-		carService.create(citroen);
+		carService.create(new Car(0, new CitroenFactory()));
+		carService.create(new Car(1, new CitroenFactory()));
+		carService.create(new Car(2, new CitroenFactory()));
+		carService.create(new Car(3, new CitroenFactory()));
 
 		citroen = carService.readById(0);
 		carService.delete(citroen);

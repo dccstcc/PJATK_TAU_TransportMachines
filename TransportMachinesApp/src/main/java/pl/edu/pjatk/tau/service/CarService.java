@@ -103,6 +103,7 @@ public class CarService implements ICarService{
 		//set unique id and add car to database
 		car.setId(id);
 		this.getCars().put(id, car);
+
 		return returnCode;
 	}
 	
@@ -146,22 +147,26 @@ public class CarService implements ICarService{
 		int id = -1;
 		
 		if(this.getCars().isEmpty()) throw new NullPointerException();
+		
+		for(Map.Entry<Integer, Car> entry : this.getCars().entrySet()) {
+			if(car.getId() == entry.getKey())  {
+				throwExc = false;				
+			} 
+		}
+		
+		if(throwExc) throw new NoSuchElementException();
 
 		for(Map.Entry<Integer, Car> entry : this.getCars().entrySet()) {
 			if(car.getId() == entry.getKey())  {
-				
-				throwExc = false;
-				
+								
 				id = entry.getKey();
 				this.getCars().remove(id);
-				
 				returnCode = 1;
 				
 				break;
 			}
 		}
 		
-		if(throwExc) throw new NoSuchElementException();
 	
 		return returnCode;
 	}
