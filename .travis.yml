@@ -1,5 +1,5 @@
 sudo: required
 language: java
 jdk: oraclejdk8
-before_install: - chmod +x travisCi.sh
+#before_install: - chmod +x travisCi.sh
 script: ./travisCi.sh
