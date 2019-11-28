@@ -9,4 +9,4 @@ before_install:
     -cd ./TranportMachinesApp
 
 script:
-    -./TransportMachninesApp/mvn test
+    -./mvn test
