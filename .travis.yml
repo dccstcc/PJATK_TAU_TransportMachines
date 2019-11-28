@@ -5,4 +5,4 @@ language: java
 #        -lab2_junit
 
 script:
-    -./mvn test
+    -./TransportMachninesApp/mvn test
