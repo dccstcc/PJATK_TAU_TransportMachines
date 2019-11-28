@@ -29,6 +29,14 @@
    	 <scope>test</scope>
 	</dependency>
     
+    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-resources-plugin -->
+	<dependency>
+    	<groupId>org.apache.maven.plugins</groupId>
+   		<artifactId>maven-resources-plugin</artifactId>
+   		<version>3.1.0</version>
+	</dependency>
+    
+    
   </dependencies>
   
    <!-- required for TravisCi interpreter -->
@@ -37,7 +45,7 @@
     		<plugins>
     			<plugin>
     				<artifactId>maven-resources-plugin</artifactId>
-    				<version>2.7</version>
+    				<version>3.1.0</version>
     			</plugin>
     		</plugins>
     	</pluginManagement>
