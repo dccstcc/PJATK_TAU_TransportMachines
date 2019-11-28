@@ -1,3 +1,3 @@
 #!/bin/sh
 cd $TRAVIS_BUILD_DIR/TransportMachinesApp
-mvn test
+mvn -up -U test
