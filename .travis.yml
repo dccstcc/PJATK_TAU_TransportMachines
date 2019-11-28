@@ -5,8 +5,9 @@ language: java
 #    only:
 #        -lab2_junit
 
-before_install:
-    -cd ./TranportMachinesApp
+#before_install:
+#    -cd ./TranportMachinesApp
 
 script:
+    -cd ./TransportMachinesApp
     -./mvn test
