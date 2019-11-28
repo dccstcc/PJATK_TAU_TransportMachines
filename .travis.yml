@@ -1,8 +1,12 @@
+sudo: false
 language: java
 
 #branches:
 #    only:
 #        -lab2_junit
+
+before_install:
+    -cd ./TranportMachinesApp
 
 script:
     -./TransportMachninesApp/mvn test
