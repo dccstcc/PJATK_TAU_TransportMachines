@@ -1,8 +1,8 @@
 language: java
 
-branches:
-    only:
-        -lab2_junit
+#branches:
+#    only:
+#        -lab2_junit
 
 script:
     -./mvn test
