@@ -1,6 +1,7 @@
 package pl.edu.pjatk.tau.service;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
@@ -13,13 +14,19 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import pl.edu.pjatk.tau.domain.Car;
 import pl.edu.pjatk.tau.domain.CarTimestamp;
+import pl.edu.pjatk.tau.domain.factory.BMW.BMWFactory;
+import pl.edu.pjatk.tau.domain.factory.Renault.RenaultFactory;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({CarTimestamp.class, LocalDateTime.class})
+@PrepareForTest({CarTimestamp.class, LocalDateTime.class, TimestampService.class})
 public class TimestampServiceTest {
 		
 	public CarTimestamp cars;
+	public TimestampService service;
+	public Car bmw;
+	public Car renault;
 
 	public LocalDateTime readTime;
 	public LocalDateTime retReadT;
@@ -32,6 +39,9 @@ public class TimestampServiceTest {
 	@Before
 	public void setUp() {
 		cars = new CarTimestamp();
+		service = new TimestampService();
+		bmw = new Car(0, new BMWFactory());
+		renault = new Car(0, new RenaultFactory());
 		
 		PowerMockito.mockStatic(LocalDateTime.class);
 		
@@ -66,5 +76,15 @@ public class TimestampServiceTest {
 		assertNotNull(cars.getWriteTimestamp());
 		cars.setUpdateTimestamp(LocalDateTime.now());
 		assertNotNull(cars.getUpdateTimestamp());
+	}
+	
+	@Test
+	public void shouldReturnCarWithTimestampAfterCallCreateMethod() {
+		service.create(bmw);
+		assertNotNull(service.readById(0));
+		assertNotNull(service.getCarsTime().get(0));
+		assertNotNull(service.getCarsTime().get(0).getWriteTimestamp());
+		assertNull(service.getCarsTime().get(0).getReadTimestamp());
+
 	}
 }
