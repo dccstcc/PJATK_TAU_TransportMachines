@@ -1,5 +1,6 @@
 package pl.edu.pjatk.tau.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -48,15 +49,15 @@ public class TimestampServiceTest {
 		  readTime = PowerMockito.mock(LocalDateTime.class);
 		  retReadT = PowerMockito.mock(LocalDateTime.class);
 		  writeTime = PowerMockito.mock(LocalDateTime.class);
-		  retWriteT = PowerMockito.mock(LocalDateTime.class);
+		  //retWriteT = PowerMockito.mock(LocalDateTime.class);
 		  updateTime = PowerMockito.mock(LocalDateTime.class);
 		  retUpdateT = PowerMockito.mock(LocalDateTime.class);
 		
 		PowerMockito.when(retReadT.getHour()).thenReturn(1);
 		PowerMockito.when(readTime.now()).thenReturn(retReadT);
 		
-		PowerMockito.when(retWriteT.getHour()).thenReturn(2);
-		PowerMockito.when(writeTime.now()).thenReturn(retWriteT);
+		PowerMockito.when(writeTime.getHour()).thenReturn(2);
+		//PowerMockito.when(writeTime.now()).thenReturn(retWriteT);
 		
 		PowerMockito.when(retUpdateT.getHour()).thenReturn(3);
 		PowerMockito.when(updateTime.now()).thenReturn(retUpdateT);
@@ -80,11 +81,21 @@ public class TimestampServiceTest {
 	
 	@Test
 	public void shouldReturnCarWithTimestampAfterCallCreateMethod() {
-		service.create(bmw);
+		service.create(bmw, writeTime);
 		assertNotNull(service.readById(0));
 		assertNotNull(service.getCarsTime().get(0));
 		assertNotNull(service.getCarsTime().get(0).getWriteTimestamp());
 		assertNull(service.getCarsTime().get(0).getReadTimestamp());
 
+	}
+	
+	@Ignore
+	@Test
+	public void shouldReturnCorrectTimestampAfterCallCreateMethod() {
+		LocalDateTime time = LocalDateTime.now();
+		
+		assertEquals(1, service.create(new Car(0, new RenaultFactory())));
+		//assertNotNull(service.getCarsTime().get(0));
+		//assertEquals(service.getCars().get(0));
 	}
 }

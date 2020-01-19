@@ -35,32 +35,58 @@ public class TimestampService extends CarService implements ITimestampService {
 		return carsT;
 	}
 	
-	@Override
-	public int create(Car car) {
-		//casting Car object for Car with timestamps object 
-		CarTimestamp carT = carCasting(car);
+	public int create(Car car, LocalDateTime timestamp) {
 		
-		//create timestamp for written car
-		LocalDateTime now = LocalDateTime.now();
-		carT.setWriteTimestamp(now);
+		//add Car into super class object and get operation return code
+		int ret = super.create(car);
 		
-		//add extended by timestamps Car object into db
-		int result = super.create(carT);
+		//get cars from super class object TreeMap database
+		TreeMap<Integer, Car> cars = super.getCars();
 		
-		//filter super class Car for find id 
-		int id = -1;
-		Car carLoop = (Car) carT;
-		for (Map.Entry<Integer, Car> entry : super.getCars().entrySet()) {
-			//if it's the same Car object then return it id
-			if(carLoop.equals(entry.getValue())) {
-				id = entry.getKey();
-			}
+		//clear cars with timestamps database to prepare for loop
+		carsT.clear();
+		
+		//clone Car object form superclass database to this database TreeMap
+		for(Map.Entry<Integer, Car> entry : cars.entrySet()) {
+			//get car from superclass and cast from Car object to CarTimestamp object 
+			CarTimestamp carT = carCasting(entry.getValue());
+			//add timestamp to CarTimestamp object
+			carT.setWriteTimestamp(timestamp);
+			//read car id from superclass
+			int id = entry.getKey();
+			//add CarTimestamp into this TreeMap database
+			carsT.put(id, carT);
 		}
 		
-		//put Car with original id and set of timestamps
-		carsT.put(id, carT);
-		return result;
+		return ret;
 	}
+	
+//	@Override
+//	public int create(Car car) {
+//		//casting Car object for Car with timestamps object 
+//		CarTimestamp carT = carCasting(car);
+//		
+//		//create timestamp for written car
+//		LocalDateTime now = LocalDateTime.now();
+//		carT.setWriteTimestamp(now);
+//		
+//		//add extended by timestamps Car object into db
+//		int result = super.create(carT);
+//		
+//		//filter super class Car for find id 
+//		int idx = -1;
+//		Car carLoop = (Car) carT;
+//		for (Map.Entry<Integer, Car> entry : super.getCars().entrySet()) {
+//			//if it's the same Car object then return it id
+//			if(carLoop.equals(entry.getValue())) {
+//				idx = entry.getKey();
+//			}
+//		}
+//		
+//		//put Car with original id and set of timestamps
+//		carsT.put(idx, carT);
+//		return result;
+//	}
 	
 	public CarTimestamp carCasting(Car car) {
 		CarTimestamp result = new CarTimestamp();
@@ -77,6 +103,10 @@ public class TimestampService extends CarService implements ITimestampService {
 		result.setProductVersion(car.getProductVersion());
 		result.setPrice(car.getPrice());
 		return result;		
+	}
+	
+	public LocalDateTime actualTime() {
+		return LocalDateTime.now();
 	}
 	
 	public String dateFormatter(LocalDateTime now) {
