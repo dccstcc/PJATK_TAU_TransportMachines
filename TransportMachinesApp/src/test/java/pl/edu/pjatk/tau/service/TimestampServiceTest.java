@@ -90,12 +90,13 @@ public class TimestampServiceTest {
 
 	}
 	
-	@Ignore
 	@Test
 	public void shouldReturnCorrectTimestampAfterCallCreateMethod() {
-		renault = new Car(0, new RenaultFactory());
-		//assertEquals(1, service.create(renault, writeTime));
-		//assertNotNull(service.getCarsTime().get(0));
-		//assertEquals(service.getCars().get(0));
+		service = new TimestampService();
+		PowerMockito.when(mockTime.getDayOfMonth()).thenReturn(12);
+		PowerMockito.when(mockCar.getId()).thenReturn(3);
+		service.create(mockCar, mockTime);
+		assertNotNull(service.getCarsTime().get(3));
+		assertEquals(12, service.getCarsTime().get(3).getWriteTimestamp().getDayOfMonth());
 	}
 }
