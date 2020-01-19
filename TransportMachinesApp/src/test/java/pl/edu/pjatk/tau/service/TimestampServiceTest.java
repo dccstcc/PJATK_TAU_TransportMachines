@@ -99,4 +99,15 @@ public class TimestampServiceTest {
 		assertNotNull(service.getCarsTime().get(3));
 		assertEquals(12, service.getCarsTime().get(3).getWriteTimestamp().getDayOfMonth());
 	}
+	
+	@Test
+	public void shouldReturnNullValueAfterAccessToUpdateAndReadTimestamps() {
+		service = new TimestampService();
+		PowerMockito.when(mockTime.getDayOfMonth()).thenReturn(6);
+		PowerMockito.when(mockCar.getId()).thenReturn(1);
+		service.create(mockCar, mockTime);
+		assertNotNull(service.getCarsTime().get(1));
+		assertNull(service.getCarsTime().get(1).getUpdateTimestamp());
+		assertNull(service.getCarsTime().get(1).getReadTimestamp());
+	}
 }
