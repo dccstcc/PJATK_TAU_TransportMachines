@@ -26,42 +26,36 @@ public class TimestampServiceTest {
 		
 	public CarTimestamp cars;
 	public TimestampService service;
-	public Car bmw;
-	public Car renault;
-
-	public LocalDateTime readTime;
-	public LocalDateTime retReadT;
-	public LocalDateTime writeTime;
-	public LocalDateTime retWriteT;
-	public LocalDateTime updateTime;
-	public LocalDateTime retUpdateT;
 	
-	//prepare Mock
-	@Before
-	public void setUp() {
-		cars = new CarTimestamp();
-		service = new TimestampService();
-		bmw = new Car(0, new BMWFactory());
-		renault = new Car(0, new RenaultFactory());
-		
-		PowerMockito.mockStatic(LocalDateTime.class);
-		
-		  readTime = PowerMockito.mock(LocalDateTime.class);
-		  retReadT = PowerMockito.mock(LocalDateTime.class);
-		  writeTime = PowerMockito.mock(LocalDateTime.class);
-		  //retWriteT = PowerMockito.mock(LocalDateTime.class);
-		  updateTime = PowerMockito.mock(LocalDateTime.class);
-		  retUpdateT = PowerMockito.mock(LocalDateTime.class);
-		
-		PowerMockito.when(retReadT.getHour()).thenReturn(1);
-		PowerMockito.when(readTime.now()).thenReturn(retReadT);
-		
-		PowerMockito.when(writeTime.getHour()).thenReturn(2);
-		//PowerMockito.when(writeTime.now()).thenReturn(retWriteT);
-		
-		PowerMockito.when(retUpdateT.getHour()).thenReturn(3);
-		PowerMockito.when(updateTime.now()).thenReturn(retUpdateT);
-	}
+	public Car mockCar = PowerMockito.mock(Car.class);
+	public LocalDateTime mockTime = PowerMockito.mock(LocalDateTime.class);
+	
+//	//prepare Mock
+//	@Before
+//	public void setUp() {
+//		cars = new CarTimestamp();
+//		service = new TimestampService();
+//		bmw = new Car(1, new BMWFactory());
+//		renault = new Car(1, new RenaultFactory());
+//		
+//		PowerMockito.mockStatic(LocalDateTime.class);
+//		
+//		  readTime = PowerMockito.mock(LocalDateTime.class);
+//		  retReadT = PowerMockito.mock(LocalDateTime.class);
+//		  writeTime = PowerMockito.mock(LocalDateTime.class);
+//		  //retWriteT = PowerMockito.mock(LocalDateTime.class);
+//		  updateTime = PowerMockito.mock(LocalDateTime.class);
+//		  retUpdateT = PowerMockito.mock(LocalDateTime.class);
+//		
+//		PowerMockito.when(retReadT.getHour()).thenReturn(1);
+//		PowerMockito.when(readTime.now()).thenReturn(retReadT);
+//		
+//		PowerMockito.when(writeTime.getHour()).thenReturn(2);
+//		//PowerMockito.when(writeTime.now()).thenReturn(retWriteT);
+//		
+//		PowerMockito.when(retUpdateT.getHour()).thenReturn(3);
+//		PowerMockito.when(updateTime.now()).thenReturn(retUpdateT);
+//	}
 	
 	
 	@Test
@@ -69,32 +63,38 @@ public class TimestampServiceTest {
 		assertTrue(true);
 	}
 	
+	
 	@Test
 	public void shouldInitializeAllTimestampsDirectlyAddedIntoDatabase() {
-		cars.setReadTimestamp(readTime);
+		cars = new CarTimestamp();
+		cars.setReadTimestamp(mockTime);
 		assertNotNull(cars.getReadTimestamp());
-		cars.setWriteTimestamp(readTime.now());
+		
+		cars.setWriteTimestamp(mockTime);
 		assertNotNull(cars.getWriteTimestamp());
+		
 		cars.setUpdateTimestamp(LocalDateTime.now());
 		assertNotNull(cars.getUpdateTimestamp());
 	}
 	
 	@Test
 	public void shouldReturnCarWithTimestampAfterCallCreateMethod() {
-		service.create(bmw, writeTime);
-		assertNotNull(service.readById(0));
-		assertNotNull(service.getCarsTime().get(0));
-		assertNotNull(service.getCarsTime().get(0).getWriteTimestamp());
-		assertNull(service.getCarsTime().get(0).getReadTimestamp());
+		
+		service = new TimestampService();
+		PowerMockito.when(mockCar.getId()).thenReturn(1);
+		service.create(mockCar, mockTime);
+		assertNotNull(service.readById(1));
+		assertNotNull(service.getCarsTime().get(1));
+		assertNotNull(service.getCarsTime().get(1).getWriteTimestamp());
+		assertNull(service.getCarsTime().get(1).getReadTimestamp());
 
 	}
 	
 	@Ignore
 	@Test
 	public void shouldReturnCorrectTimestampAfterCallCreateMethod() {
-		LocalDateTime time = LocalDateTime.now();
-		
-		assertEquals(1, service.create(new Car(0, new RenaultFactory())));
+		renault = new Car(0, new RenaultFactory());
+		//assertEquals(1, service.create(renault, writeTime));
 		//assertNotNull(service.getCarsTime().get(0));
 		//assertEquals(service.getCars().get(0));
 	}

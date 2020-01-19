@@ -50,6 +50,7 @@ public class TimestampService extends CarService implements ITimestampService {
 		for(Map.Entry<Integer, Car> entry : cars.entrySet()) {
 			//get car from superclass and cast from Car object to CarTimestamp object 
 			CarTimestamp carT = carCasting(entry.getValue());
+			//    bug
 			//add timestamp to CarTimestamp object
 			carT.setWriteTimestamp(timestamp);
 			//read car id from superclass
