@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,36 +26,13 @@ public class TimestampServiceTest {
 	public CarTimestamp cars;
 	public TimestampService service;
 	
+	public Car car;
+	public Car car_2;
+	
 	public Car mockCar = PowerMockito.mock(Car.class);
+	public Car mockCar_2 = PowerMockito.mock(Car.class);
 	public LocalDateTime mockTime = PowerMockito.mock(LocalDateTime.class);
-	
-//	//prepare Mock
-//	@Before
-//	public void setUp() {
-//		cars = new CarTimestamp();
-//		service = new TimestampService();
-//		bmw = new Car(1, new BMWFactory());
-//		renault = new Car(1, new RenaultFactory());
-//		
-//		PowerMockito.mockStatic(LocalDateTime.class);
-//		
-//		  readTime = PowerMockito.mock(LocalDateTime.class);
-//		  retReadT = PowerMockito.mock(LocalDateTime.class);
-//		  writeTime = PowerMockito.mock(LocalDateTime.class);
-//		  //retWriteT = PowerMockito.mock(LocalDateTime.class);
-//		  updateTime = PowerMockito.mock(LocalDateTime.class);
-//		  retUpdateT = PowerMockito.mock(LocalDateTime.class);
-//		
-//		PowerMockito.when(retReadT.getHour()).thenReturn(1);
-//		PowerMockito.when(readTime.now()).thenReturn(retReadT);
-//		
-//		PowerMockito.when(writeTime.getHour()).thenReturn(2);
-//		//PowerMockito.when(writeTime.now()).thenReturn(retWriteT);
-//		
-//		PowerMockito.when(retUpdateT.getHour()).thenReturn(3);
-//		PowerMockito.when(updateTime.now()).thenReturn(retUpdateT);
-//	}
-	
+	public LocalDateTime mockTime_2 = PowerMockito.mock(LocalDateTime.class);
 	
 	@Test
 	public void shouldPass() {
@@ -79,7 +55,6 @@ public class TimestampServiceTest {
 	
 	@Test
 	public void shouldReturnCarWithTimestampAfterCallCreateMethod() {
-		
 		service = new TimestampService();
 		PowerMockito.when(mockCar.getId()).thenReturn(1);
 		service.create(mockCar, mockTime);
@@ -109,5 +84,25 @@ public class TimestampServiceTest {
 		assertNotNull(service.getCarsTime().get(1));
 		assertNull(service.getCarsTime().get(1).getUpdateTimestamp());
 		assertNull(service.getCarsTime().get(1).getReadTimestamp());
+	}
+	
+	@Test
+	public void shouldReturnAnotherTimestampValueForDifferentCarsObjects() {
+		service = new TimestampService();
+		
+		car = new Car(3, new BMWFactory());
+		car_2 = new Car(5, new RenaultFactory());
+		
+		PowerMockito.when(mockTime.getHour()).thenReturn(3);
+		PowerMockito.when(mockTime_2.getHour()).thenReturn(5);
+
+		service.create(car, mockTime);
+		service.create(car_2, mockTime_2);
+		
+		assertNotNull(service.getCarsTime().get(3));
+		assertNotNull(service.getCarsTime().get(5));
+		assertEquals(3, service.getCarsTime().get(3).getWriteTimestamp().getHour());
+		assertEquals(5, service.getCarsTime().get(5).getWriteTimestamp().getHour());
+
 	}
 }
