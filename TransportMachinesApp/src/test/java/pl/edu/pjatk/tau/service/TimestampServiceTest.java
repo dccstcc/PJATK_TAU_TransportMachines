@@ -170,6 +170,21 @@ public class TimestampServiceTest {
 		assertEquals(service.actualTime().getSecond(), service.readById(12).getReadTimestamp().getSecond());
 	}
 	
+	@Test
+	public void shouldReturnActualReadTimestamp() {
+		service = new TimestampService();
+
+		car = new Car(17, new RenaultFactory());
+
+		service.create(car, mockTime);
+		
+		assertEquals(service.actualTime().getSecond(), service.readById(17).getReadTimestamp().getSecond());
+		assertEquals(service.actualTime().getMinute(), service.readById(17).getReadTimestamp().getMinute());
+		assertEquals(service.actualTime().getHour(), service.readById(17).getReadTimestamp().getHour());
+		assertEquals(service.actualTime().getDayOfWeek(), service.readById(17).getReadTimestamp().getDayOfWeek());
+
+	}
+	
 	@Ignore
 	@Test
 	public void shouldReturnNotNullValueAfterUpdate() {
