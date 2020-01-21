@@ -215,20 +215,38 @@ public class TimestampServiceTest {
 	public void shouldReturnAppropriateUpdateTimestampAfterCallMultipleUpdateMethod() {
 		service = new TimestampService();
 		
-		car = new Car(2, new RenaultFactory());
+		car = new Car(222, new RenaultFactory());
 		
 		service.create(car, mockTime);
 		
 		car.setColor("firstTest");
 		service.update(car);
-		assertEquals("firstTest", service.readById(2).getColor());
+		assertEquals("firstTest", service.readById(222).getColor());
 		
 		car.setColor("secondTest");
 		service.update(car);
-		assertEquals("secondTest", service.readById(2).getColor());
+		assertEquals("secondTest", service.readById(222).getColor());
 		
 		car.setColor("thirdTest");
 		service.update(car);
-		assertEquals("thirdTest", service.readById(2).getColor());
+		assertEquals("thirdTest", service.readById(222).getColor());
 	} 
+	
+	@Test
+	public void shouldReturnAppropriateUpdateTimestampValueAfterCallUpdateMethod() {
+		service = new TimestampService();
+		
+		car = new Car(99, new BMWFactory());
+		
+		service.create(car, mockTime);
+		
+		car.setProducentCountry("underTest");
+		
+		service.update(car);
+		assertEquals(service.actualTime().getSecond(), service.getCarsTime().get(99).getUpdateTimestamp().getSecond());
+		assertEquals(service.actualTime().getMinute(), service.getCarsTime().get(99).getUpdateTimestamp().getMinute());
+		assertEquals(service.actualTime().getHour(), service.getCarsTime().get(99).getUpdateTimestamp().getHour());
+		assertEquals(service.actualTime().getDayOfMonth(), service.getCarsTime().get(99).getUpdateTimestamp().getDayOfMonth());
+
+	}
 }
