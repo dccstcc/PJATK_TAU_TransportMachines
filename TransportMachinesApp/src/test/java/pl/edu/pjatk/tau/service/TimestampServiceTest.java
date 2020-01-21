@@ -105,4 +105,29 @@ public class TimestampServiceTest {
 		assertEquals(5, service.getCarsTime().get(5).getWriteTimestamp().getHour());
 
 	}
+	
+	@Test
+	public void shouldReturnCarTimestampObjectAfterCallReadByIdMethod() {
+		service = new TimestampService();
+		
+		car = new Car(20, new RenaultFactory());
+		PowerMockito.when(mockTime.getDayOfYear()).thenReturn(366);
+		
+		service.create(car, mockTime);
+		
+		assertNotNull(service.readById(20).getWriteTimestamp());
+	}
+	
+	@Ignore
+	@Test
+	public void shouldReturnNotNullValueAfterCallReadByIdMethod() {
+		service = new TimestampService();
+		
+		car = new Car(10, new RenaultFactory());
+		PowerMockito.when(mockTime.getMinute()).thenReturn(30);
+		
+		service.create(car, mockTime);
+		
+		assertNotNull(service.readById(10));
+	}
 }

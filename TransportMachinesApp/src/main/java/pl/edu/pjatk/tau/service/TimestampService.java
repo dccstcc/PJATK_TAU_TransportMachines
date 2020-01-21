@@ -49,6 +49,23 @@ public class TimestampService extends CarService implements ITimestampService {
 		return ret;
 	}
 	
+	@Override
+	public CarTimestamp readById(int id) {
+		boolean throwException = true;
+		CarTimestamp result = new CarTimestamp();
+		for(Map.Entry<Integer, CarTimestamp> entry : this.getCarsTime().entrySet()) {
+			if(entry.getKey().equals(id)) {
+				result = this.getCarsTime().get(id);
+				throwException = false;
+				break;
+			} 
+		}
+		
+		if(throwException) throw new IndexOutOfBoundsException();
+		
+		return result;
+	}
+	
 	public CarTimestamp carCasting(Car car) {
 		CarTimestamp result = new CarTimestamp();
 		result.setId(car.getId());
