@@ -159,6 +159,17 @@ public class TimestampServiceTest {
 		assertNotNull(service.readById(5).getReadTimestamp());
 	}
 	
+	@Test
+	public void shouldReturnAppropriateReadTimestamp() {
+		service = new TimestampService();
+
+		car = new Car(12, new BMWFactory());
+
+		service.create(car, mockTime_2);
+		
+		assertEquals(service.actualTime().getSecond(), service.readById(12).getReadTimestamp().getSecond());
+	}
+	
 	@Ignore
 	@Test
 	public void shouldReturnNotNullValueAfterUpdate() {
