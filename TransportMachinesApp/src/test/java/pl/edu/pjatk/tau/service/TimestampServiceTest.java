@@ -196,7 +196,18 @@ public class TimestampServiceTest {
 		car.setMark("forTest");
 		service.update(car);
 		assertNotNull(service.readById(50));
-
+	}
+	
+	@Test
+	public void shouldReturnAppropriateUpdateTimestampAfterCallUpdateMethod() {
+		service = new TimestampService();
 		
+		car = new Car(25, new BMWFactory());
+		
+		service.create(car, mockTime);
+		
+		car.setMark("forTest");
+		service.update(car);
+		assertEquals("forTest", service.readById(25).getMark());
 	}
 }

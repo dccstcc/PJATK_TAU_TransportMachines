@@ -127,8 +127,11 @@ public class CarService implements ICarService{
 			if(car.getId() == entry.getKey())  {
 				
 				throwExc = false;
-				
-				entry.setValue(car);
+			
+				this.getCars().replace(entry.getKey(), entry.getValue(), car);
+				//this.getCars().put(entry.getKey(), car);
+				//this.getCars().replace(entry.getKey(), car);
+				//entry.setValue(car);
 				
 				returnCode = 1;
 			}

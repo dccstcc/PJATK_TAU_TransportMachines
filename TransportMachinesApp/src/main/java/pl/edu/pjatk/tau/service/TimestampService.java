@@ -53,34 +53,46 @@ public class TimestampService extends CarService implements ITimestampService {
 	public CarTimestamp readById(int id) {
 		boolean throwException = true;
 		CarTimestamp result = new CarTimestamp();
+		
 		for(Map.Entry<Integer, CarTimestamp> entry : this.getCarsTime().entrySet()) {
+			//find CarTimestamp obj by id
 			if(entry.getKey().equals(id)) {
+				//set read timestamp in CarTimestamp obj directly into db
 				this.getCarsTime().get(id).setReadTimestamp(actualTime());
+				//read CarTimestamp obj with read timestamp from db
 				result = this.getCarsTime().get(id);
+				
 				throwException = false;
 				break;
 			} 
 		}
 		
+		//when nothing found
 		if(throwException) throw new IndexOutOfBoundsException();
 				
 		return result;
 	}
 	
-	
-	public int update(CarTimestamp carT) {
-		Car car = carCasting(carT);
+	@Override
+	public int update(Car car) {
+		//call super.class update method
+		int ret = super.update(car);
+		//remember id of CarTimestamp obj
+		int id = car.getId();
+		//read CarTimestamp by id
+		CarTimestamp carT = this.getCarsTime().get(id);
 		
-		int result = super.update(car);
-		car = super.readById(car.getId());
-		
+		//remember timestamps from CarTimestamp obj
 		LocalDateTime readT = carT.getReadTimestamp();
-		LocalDateTime writeT = carT.getWriteTimestamp();
-		LocalDateTime updateT = carT.getUpdateTimestamp();
+  		LocalDateTime writeT = carT.getWriteTimestamp();
+  		LocalDateTime updateT = carT.getUpdateTimestamp();
 		boolean isReadT = carT.isActiveReadTS();
 		boolean isWriteT = carT.isActiveWriteTS();
 		boolean isUpdateT = carT.isActiveUpdateTS();
-		carT = (CarTimestamp) car;
+		
+		//cast from Car to CarTimestamp
+		carT = carCasting(car);
+		//restore remembered timestamps from CarTimestamps obj
 		carT.setReadTimestamp(readT);
 		carT.setWriteTimestamp(writeT);
 		carT.setUpdateTimestamp(updateT);
@@ -88,13 +100,15 @@ public class TimestampService extends CarService implements ITimestampService {
 		carT.setActiveWriteTS(isWriteT);
 		carT.setActiveUpdateTS(isUpdateT);
 		
+		//set actual update timestamp
 		carT.setUpdateTimestamp(actualTime());
 		
-		this.getCarsTime().replace(carT.getId(), carT);
-				
-		return result;
-	}
+		//replace old CarTimestamp to actual version
+		this.getCarsTime().replace(id, this.getCarsTime().get(id), carT);
 		
+		return ret;
+	}
+			
 	//cast form CarTimestamp to Car object
 	public CarTimestamp carCasting(Car car) {
 		CarTimestamp result = new CarTimestamp();
