@@ -210,4 +210,25 @@ public class TimestampServiceTest {
 		service.update(car);
 		assertEquals("forTest", service.readById(25).getMark());
 	}
+	
+	@Test
+	public void shouldReturnAppropriateUpdateTimestampAfterCallMultipleUpdateMethod() {
+		service = new TimestampService();
+		
+		car = new Car(2, new RenaultFactory());
+		
+		service.create(car, mockTime);
+		
+		car.setColor("firstTest");
+		service.update(car);
+		assertEquals("firstTest", service.readById(2).getColor());
+		
+		car.setColor("secondTest");
+		service.update(car);
+		assertEquals("secondTest", service.readById(2).getColor());
+		
+		car.setColor("thirdTest");
+		service.update(car);
+		assertEquals("thirdTest", service.readById(2).getColor());
+	} 
 }
