@@ -61,7 +61,7 @@ public class TimestampServiceTest {
 		assertNotNull(service.readById(1));
 		assertNotNull(service.getCarsTime().get(1));
 		assertNotNull(service.getCarsTime().get(1).getWriteTimestamp());
-		assertNull(service.getCarsTime().get(1).getReadTimestamp());
+		assertNotNull(service.getCarsTime().get(1).getReadTimestamp());
 
 	}
 	
@@ -146,5 +146,33 @@ public class TimestampServiceTest {
 		assertNotNull(service.readById(30));
 		assertEquals(1, service.readById(20).getWriteTimestamp().getDayOfMonth());
 		assertEquals(7, service.readById(30).getWriteTimestamp().getDayOfMonth());
+	}
+	
+	@Test
+	public void shouldReturnNotNullReadTimestamp() {
+		service = new TimestampService();
+
+		car = new Car(5, new RenaultFactory());
+
+		service.create(car, mockTime);
+		
+		assertNotNull(service.readById(5).getReadTimestamp());
+	}
+	
+	@Ignore
+	@Test
+	public void shouldReturnNotNullValueAfterUpdate() {
+		service = new TimestampService();
+		
+		car = new Car(50, new RenaultFactory());
+		
+		service.create(car, mockTime);
+		assertNotNull(service.readById(50));
+		
+		car.setMark("forTest");
+		//service.update(car, mockTime);
+		assertNotNull(service.readById(50));
+
+		
 	}
 }
