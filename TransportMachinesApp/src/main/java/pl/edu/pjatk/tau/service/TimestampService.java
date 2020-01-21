@@ -67,13 +67,34 @@ public class TimestampService extends CarService implements ITimestampService {
 		return result;
 	}
 	
-//	public int update(CarTimestamp carT) {
-//		Car car = carCasting(carT);
-//		int result = super.update(car);
-//		car = super.readById(id)
-//		return result;
-//	}
 	
+	public int update(CarTimestamp carT) {
+		Car car = carCasting(carT);
+		
+		int result = super.update(car);
+		car = super.readById(car.getId());
+		
+		LocalDateTime readT = carT.getReadTimestamp();
+		LocalDateTime writeT = carT.getWriteTimestamp();
+		LocalDateTime updateT = carT.getUpdateTimestamp();
+		boolean isReadT = carT.isActiveReadTS();
+		boolean isWriteT = carT.isActiveWriteTS();
+		boolean isUpdateT = carT.isActiveUpdateTS();
+		carT = (CarTimestamp) car;
+		carT.setReadTimestamp(readT);
+		carT.setWriteTimestamp(writeT);
+		carT.setUpdateTimestamp(updateT);
+		carT.setActiveReadTS(isReadT);
+		carT.setActiveWriteTS(isWriteT);
+		carT.setActiveUpdateTS(isUpdateT);
+		
+		carT.setUpdateTimestamp(actualTime());
+		
+		this.getCarsTime().replace(carT.getId(), carT);
+				
+		return result;
+	}
+		
 	//cast form CarTimestamp to Car object
 	public CarTimestamp carCasting(Car car) {
 		CarTimestamp result = new CarTimestamp();
