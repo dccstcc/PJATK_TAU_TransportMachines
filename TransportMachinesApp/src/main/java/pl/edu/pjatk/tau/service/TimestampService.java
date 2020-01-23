@@ -12,10 +12,20 @@ public class TimestampService extends CarService implements ITimestampService {
 	
 	//CarTimestamp database
 	private TreeMap<Integer, CarTimestamp> carsT = new TreeMap<Integer, CarTimestamp>();
-		
+	
+	//activation flags for timestamps
+	private boolean isWriteActive = true;
+	private boolean isReadActive = true;
+	private boolean isUpdateActive = true;
+	
 	public TreeMap<Integer, CarTimestamp> getCarsTime() {
 		return carsT;
 	}
+		
+	public void disableWriteTS() {
+		this.isWriteActive = false;
+	}
+	
 	
 	public int create(Car car, LocalDateTime timestamp) {
 		
@@ -37,8 +47,8 @@ public class TimestampService extends CarService implements ITimestampService {
 				CarTimestamp carT = new CarTimestamp();
 				//cast from Car to CarTimestamp object
 				carT = carCasting(superCar);
-				//add timestamp into CarTimestamp object 
-				carT.setWriteTimestamp(timestamp);
+				//add timestamp into CarTimestamp object if flag is active
+				if(isWriteActive) carT.setWriteTimestamp(timestamp);
 				//get Car id from super.database class
 				int id = superCar.getId();
 				//add CarTimestamp into this.database with id from super.database

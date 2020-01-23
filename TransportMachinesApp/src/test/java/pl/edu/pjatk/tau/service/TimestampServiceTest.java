@@ -249,4 +249,19 @@ public class TimestampServiceTest {
 		assertEquals(service.actualTime().getDayOfMonth(), service.getCarsTime().get(99).getUpdateTimestamp().getDayOfMonth());
 
 	}
+	
+	@Test
+	public void shouldDisableWriteTimestampAndReturnNullValue() {
+		service = new TimestampService();
+		
+		car = new Car(333, new BMWFactory());
+		
+		PowerMockito.when(mockTime.getNano()).thenReturn(333);
+		
+		service.disableWriteTS();
+		service.create(car, mockTime);
+		
+		
+		assertNull(service.getCarsTime().get(333).getWriteTimestamp());
+	}
 }
