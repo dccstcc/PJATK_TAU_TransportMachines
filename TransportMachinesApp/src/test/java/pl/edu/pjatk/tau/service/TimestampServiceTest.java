@@ -378,4 +378,50 @@ public class TimestampServiceTest {
 		
 		assertNull(service.readById(9876).getUpdateTimestamp());
 	}
+	
+	@Test
+	public void shouldEableAllTimestampsAndReturnAppropriateValue() {
+		
+		service = new TimestampService();
+		
+		car = new Car(3210, new BMWFactory());
+		
+		PowerMockito.when(mockTime.getNano()).thenReturn(3210);
+		
+		service.disableWriteTS();
+		service.disableReadTS();
+		service.disableUpdateTS();
+		service.create(car, mockTime);
+		
+		assertNull(service.readById(3210).getWriteTimestamp());
+		assertNull(service.readById(3210).getReadTimestamp());
+		
+		car.setEngineType("TEST");
+		service.update(car);
+		
+		assertNull(service.readById(3210).getUpdateTimestamp());
+		
+		
+		
+		service.enableWriteTS();
+		service.enableReadTS();
+		service.enableUpdateTS();
+		
+		car_2 = new Car(54321, new BMWFactory());
+		
+		PowerMockito.when(mockTime.getMinute()).thenReturn(54321);
+		
+		service.create(car_2, mockTime);
+		
+		assertNotNull(service.readById(54321).getWriteTimestamp());
+		assertNotNull(service.readById(54321).getReadTimestamp());
+		
+		car_2.setEngineType("TEST");
+		service.update(car_2);
+		
+		assertNotNull(service.readById(54321).getUpdateTimestamp());
+		
+		assertEquals(54321, service.readById(54321).getWriteTimestamp().getMinute());
+		
+	}
 }
