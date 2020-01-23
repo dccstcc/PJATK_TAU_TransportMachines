@@ -339,4 +339,20 @@ public class TimestampServiceTest {
 		
 		assertNull(service.readById(998).getReadTimestamp());
 	}
+	
+	@Test
+	public void shouldEnableReadTimestampAndReturnAppriopriateValue() {
+		service = new TimestampService();
+		
+		car = new Car(678, new BMWFactory());
+				
+		service.disableReadTS();
+		service.create(car, mockTime);
+		
+		assertNull(service.readById(678).getReadTimestamp());
+		
+		service.enableReadTS();
+		
+		assertNotNull(service.readById(678).getReadTimestamp());
+	}
 }

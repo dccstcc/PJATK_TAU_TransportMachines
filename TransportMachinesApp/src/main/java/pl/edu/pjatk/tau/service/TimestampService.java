@@ -38,6 +38,9 @@ public class TimestampService extends CarService implements ITimestampService {
 	public void disableReadTS() {
 		this.isReadActive = false;
 	}
+	public void enableReadTS() {
+		 this.isReadActive = true;
+	}
 	
 	public int create(Car car, LocalDateTime timestamp) {
 		
