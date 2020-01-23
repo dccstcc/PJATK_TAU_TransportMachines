@@ -21,11 +21,14 @@ public class TimestampService extends CarService implements ITimestampService {
 	public TreeMap<Integer, CarTimestamp> getCarsTime() {
 		return carsT;
 	}
-		
+	
+	//flags activation/deactivation methods
 	public void disableWriteTS() {
 		this.isWriteActive = false;
 	}
-	
+	public void enableWriteTS() {
+		 this.isWriteActive = true;
+	}
 	
 	public int create(Car car, LocalDateTime timestamp) {
 		

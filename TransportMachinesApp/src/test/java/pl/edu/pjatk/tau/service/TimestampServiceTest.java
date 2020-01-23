@@ -261,7 +261,28 @@ public class TimestampServiceTest {
 		service.disableWriteTS();
 		service.create(car, mockTime);
 		
-		
 		assertNull(service.getCarsTime().get(333).getWriteTimestamp());
+	}
+	
+	@Test
+	public void shouldEnableWriteTimestampAndReturnAppriopriateValue() {
+		service = new TimestampService();
+		
+		car = new Car(444, new RenaultFactory());
+		
+		PowerMockito.when(mockTime.getNano()).thenReturn(444);
+		
+		service.disableWriteTS();
+		service.create(car, mockTime);
+				
+		assertNull(service.getCarsTime().get(444).getWriteTimestamp());
+		
+		
+		car_2 = new Car(555, new BMWFactory());
+		
+		service.enableWriteTS();
+		service.create(car_2, mockTime);
+		
+		assertEquals(444, service.getCarsTime().get(555).getWriteTimestamp().getNano());
 	}
 }
