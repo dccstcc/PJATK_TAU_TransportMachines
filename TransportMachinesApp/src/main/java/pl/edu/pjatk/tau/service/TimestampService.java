@@ -32,6 +32,9 @@ public class TimestampService extends CarService implements ITimestampService {
 	public void disableUpdateTS() {
 		this.isUpdateActive = false;
 	}
+	public void enableUpdateTS() {
+		 this.isUpdateActive = true;
+	}
 	
 	public int create(Car car, LocalDateTime timestamp) {
 		
