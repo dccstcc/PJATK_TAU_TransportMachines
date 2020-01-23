@@ -285,4 +285,21 @@ public class TimestampServiceTest {
 		
 		assertEquals(444, service.getCarsTime().get(555).getWriteTimestamp().getNano());
 	}
+	
+	@Test
+	public void shouldDisableUpdateTimestampAndReturnNullValue() {
+		service = new TimestampService();
+		
+		car = new Car(234, new BMWFactory());
+		
+		PowerMockito.when(mockTime.getNano()).thenReturn(234);
+		
+		service.disableUpdateTS();
+		service.create(car, mockTime);
+		
+		car.setGearboxType("TEST");
+		service.update(car);
+		
+		assertNull(service.getCarsTime().get(234).getUpdateTimestamp());
+	}
 }

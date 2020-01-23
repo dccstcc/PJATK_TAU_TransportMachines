@@ -29,6 +29,9 @@ public class TimestampService extends CarService implements ITimestampService {
 	public void enableWriteTS() {
 		 this.isWriteActive = true;
 	}
+	public void disableUpdateTS() {
+		this.isUpdateActive = false;
+	}
 	
 	public int create(Car car, LocalDateTime timestamp) {
 		
@@ -113,8 +116,8 @@ public class TimestampService extends CarService implements ITimestampService {
 		carT.setActiveWriteTS(isWriteT);
 		carT.setActiveUpdateTS(isUpdateT);
 		
-		//set actual update timestamp
-		carT.setUpdateTimestamp(actualTime());
+		//set actual update timestamp if update timestamp flag is active
+		if(isUpdateActive) carT.setUpdateTimestamp(actualTime());
 		
 		//replace old CarTimestamp to actual version
 		this.getCarsTime().replace(id, this.getCarsTime().get(id), carT);
