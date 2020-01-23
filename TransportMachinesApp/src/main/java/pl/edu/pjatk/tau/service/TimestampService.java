@@ -35,6 +35,9 @@ public class TimestampService extends CarService implements ITimestampService {
 	public void enableUpdateTS() {
 		 this.isUpdateActive = true;
 	}
+	public void disableReadTS() {
+		this.isReadActive = false;
+	}
 	
 	public int create(Car car, LocalDateTime timestamp) {
 		
@@ -76,7 +79,9 @@ public class TimestampService extends CarService implements ITimestampService {
 		for(Map.Entry<Integer, CarTimestamp> entry : this.getCarsTime().entrySet()) {
 			//find CarTimestamp obj by id
 			if(entry.getKey().equals(id)) {
-				//set read timestamp in CarTimestamp obj directly into db
+				//set read timestamp in CarTimestamp obj directly into db 
+				//only if timestamp read flag is active
+				if(isReadActive)
 				this.getCarsTime().get(id).setReadTimestamp(actualTime());
 				//read CarTimestamp obj with read timestamp from db
 				result = this.getCarsTime().get(id);

@@ -325,4 +325,18 @@ public class TimestampServiceTest {
 		
 		assertEquals(4321, service.getCarsTime().get(4321).getWriteTimestamp().getNano());
 	}
+	
+	@Test
+	public void shouldDisableReadTimestampAndReturnNullValue() {
+		service = new TimestampService();
+		
+		car = new Car(998, new RenaultFactory());
+		
+		PowerMockito.when(mockTime.getNano()).thenReturn(998);
+		
+		service.disableReadTS();
+		service.create(car, mockTime);
+		
+		assertNull(service.readById(998).getReadTimestamp());
+	}
 }
