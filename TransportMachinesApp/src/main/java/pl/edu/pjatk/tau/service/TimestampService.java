@@ -8,7 +8,7 @@ import java.util.TreeMap;
 import pl.edu.pjatk.tau.domain.Car;
 import pl.edu.pjatk.tau.domain.CarTimestamp;
 
-public class TimestampService extends CarService implements ITimestampService {
+public class TimestampService extends CarService implements ITimestampService, ISearchingService {
 	
 	//CarTimestamp database
 	private TreeMap<Integer, CarTimestamp> carsT = new TreeMap<Integer, CarTimestamp>();
@@ -180,6 +180,118 @@ public class TimestampService extends CarService implements ITimestampService {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		String result = now.format(formatter);
 		return result;
+	}
+	
+	///////
+	//
+	//	ISearchingService interface implementation
+	//
+	///////
+	
+	public String getSearch() {
+		return this.searchResults;
+	}
+	
+	public boolean isSearchEmpty() {
+		return this.searchResults.equals("Nothing found") ? true : false;
+	}
+	
+	public void searchCar(String params) {
+		for (Map.Entry<Integer, CarTimestamp> entry : this.getCarsTime().entrySet()) {
+			String carStr = concatCarParams(entry.getValue());
+			int idx = 0;
+			String substr = "";
+			while(params.length() > 0) {
+				idx = params.indexOf(" ");
+				substr = params.substring(0, idx);
+				if (carStr.contentEquals(substr)) {
+					this.searchResults.concat(carStr + "\n");
+					break;
+				} else {
+					params = params.substring(idx);
+				}
+			}
+		}
+	}
+	
+	private String concatCarParams(Car car) {
+		String result = "";
+		
+		//result.concat(car.getId() + " ");
+		result.concat(car.getMark() + " ");
+		result.concat(car.getModel() + " ");
+		result.concat(car.getProducentCountry() + " ");
+		result.concat(car.getYearOfProduction() + " ");
+		result.concat(car.getColor() + " ");
+		result.concat(car.getEngineType() + " ");
+		result.concat(car.getGearboxType() + " ");
+		result.concat(car.getMaxSpeed() + " ");
+		result.concat(car.getSegmentType() + " ");
+		result.concat(car.getProductVersion() + " ");
+		result.concat(car.getPrice() + " \n");
+		
+		return result;
+	}
+	
+	public CarTimestamp parseStringToCar(String carStr) {
+		CarTimestamp car = new CarTimestamp();
+		
+		int idx = carStr.indexOf(" ");
+		String val = carStr.substring(0, idx);
+		car.setMark(val);
+		carStr = carStr.substring(idx);
+		
+		idx = carStr.indexOf(" ");
+		val = carStr.substring(0, idx);
+		car.setModel(val);
+		carStr = carStr.substring(idx);
+		
+		idx = carStr.indexOf(" ");
+		val = carStr.substring(0, idx);
+		car.setProducentCountry(val);
+		carStr = carStr.substring(idx);
+		
+		idx = carStr.indexOf(" ");
+		val = carStr.substring(0, idx);
+		car.setYearOfProduction(Integer.parseInt(val));
+		carStr = carStr.substring(idx);
+		
+		idx = carStr.indexOf(" ");
+		val = carStr.substring(0, idx);
+		car.setColor(val);
+		carStr = carStr.substring(idx);
+		
+		idx = carStr.indexOf(" ");
+		val = carStr.substring(0, idx);
+		car.setEngineType(val);
+		carStr = carStr.substring(idx);
+		
+		idx = carStr.indexOf(" ");
+		val = carStr.substring(0, idx);
+		car.setGearboxType(val);
+		carStr = carStr.substring(idx);
+		
+		idx = carStr.indexOf(" ");
+		val = carStr.substring(0, idx);
+		car.setMaxSpeed(Integer.parseInt(val));
+		carStr = carStr.substring(idx);
+		
+		idx = carStr.indexOf(" ");
+		val = carStr.substring(0, idx);
+		car.setSegmentType(val);
+		carStr = carStr.substring(idx);
+		
+		idx = carStr.indexOf(" ");
+		val = carStr.substring(0, idx);
+		car.setProductVersion(val);
+		carStr = carStr.substring(idx);
+		
+		idx = carStr.indexOf(" ");
+		val = carStr.substring(0, idx);
+		car.setPrice(Integer.parseInt(val));
+		carStr = carStr.substring(idx);
+		
+		return car;
 	}
 }
 
