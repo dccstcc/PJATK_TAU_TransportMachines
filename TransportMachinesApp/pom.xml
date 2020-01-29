@@ -12,7 +12,8 @@
  	<properties>
  	
  		<!-- BDD cucumber -->
- 		<cucumber.version>5.0.0</cucumber.version>
+ 		<!-- downgrade from 5.0.0 to 2.3.1 -->
+ 		<cucumber.version>2.3.1</cucumber.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
         <!-- required for TravisCi interpreter -->
@@ -88,7 +89,7 @@
     
   </dependencies>
   
-   <!-- required for TravisCi interpreter -->
+   <!-- required for TravisCi interpreter -
     <build>
     	<pluginManagement>
     		<plugins>
@@ -99,5 +100,23 @@
     		</plugins>
     	</pluginManagement>
     </build>    
+    -->
+    
+    <!-- template from TP PJATK -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <compilerArgument>-Werror</compilerArgument>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     
 </project>

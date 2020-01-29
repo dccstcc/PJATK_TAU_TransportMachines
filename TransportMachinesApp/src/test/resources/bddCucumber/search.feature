@@ -6,12 +6,10 @@ I: prepare some BDD style tests
 
 Scenario Outline: Search car by key words
 
-Given: we have car database
-And: we add Car into database as "<car>"
-And: we have car searcher for database 
-And: we have key word for find car in searcher
-When: we find key words with car searcher as "<carAttr>"
-Then: the result should be "<carResults>"
+Given we have car database
+And we add car into database as <car>
+When we find key words with car searcher as <carAttr>
+Then the result should be <carResults>
 
 Examples:
  | car                                                          	| carAttr            | carResults 		  										  |
