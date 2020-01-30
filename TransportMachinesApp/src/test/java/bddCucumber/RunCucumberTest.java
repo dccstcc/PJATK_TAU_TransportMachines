@@ -11,7 +11,9 @@ import cucumber.api.junit.Cucumber;
 @RunWith(Cucumber.class)
 @CucumberOptions(plugin = {"pretty","html:report"},
 				 //glue="cucumber.steps",
-				 features="src/test/resources/bddCucumber")
+				 features= {"src/test/resources/bddCucumber/search.feature", "src/test/resources/bddCucumber/delete.feature"} 
+				 //tags="@Search, @Delete"
+				 )
 public class RunCucumberTest {
 
 }

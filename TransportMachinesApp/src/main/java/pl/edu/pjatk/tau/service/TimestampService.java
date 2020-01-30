@@ -260,13 +260,14 @@ public class TimestampService extends CarService implements ITimestampService, I
 		return result;
 	}
 	
-	public CarTimestamp parseStringToCar(String carStr) {
+	public CarTimestamp parseStringToCar(String carStr) throws NullPointerException{
 		CarTimestamp car = new CarTimestamp();
 		
 		String[] parts = carStr.split(" ");
 		int idx = 0;
 		String val = "";
 		
+		try {
 		val = parts[idx++];
 		car.setMark(val);
 		
@@ -299,6 +300,11 @@ public class TimestampService extends CarService implements ITimestampService, I
 		
 		val = parts[idx++];
 		car.setPrice(Integer.parseInt(val));
+		
+		}catch(NullPointerException e) {
+			//e.("last parts = " + val);
+			//e.printStackTrace();
+		}
 		
 		return car;
 	}
