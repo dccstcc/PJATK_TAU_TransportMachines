@@ -1,8 +1,10 @@
 package bddCucumber;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import pl.edu.pjatk.tau.domain.CarTimestamp;
 import pl.edu.pjatk.tau.service.TimestampService;
@@ -84,12 +86,29 @@ public class CarDelStepdefs {
 	
 	@When("^we delete cars from database using list of cars$")
 	public void we_delete_cars_from_database_using_list_of_cars() {
-		
+
+		carTserv.deleteFromList(carTsList);
+
 	}
 	
 	@Then("^the database shouldnt contains cars from list but should contains cars ([a-zA-Z]+ [a-zA-Z0-9]+ [A-Z]{2,3}+ [1-9][0-9]{3}+ [a-z]+ p?e?t?r?o?l?d?i?e?s?e?l? m?a?n?u?a?l?a?u?t?o?m?a?t?i?c? [1-3][0-9]{2} [A-I|K] [a-z]+ [1-9][0-9]+) ___and___ ([a-zA-Z]+ [a-zA-Z0-9]+ [A-Z]{2,3}+ [1-9][0-9]{3}+ [a-z]+ p?e?t?r?o?l?d?i?e?s?e?l? m?a?n?u?a?l?a?u?t?o?m?a?t?i?c? [1-3][0-9]{2} [A-I|K] [a-z]+ [1-9][0-9]+)$")
-	public void the_database_shouldnt_contains_cars_from_list_but_should_contains_cars(String carResults_1, String carResult_2) throws Exception{
+	public void the_database_shouldnt_contains_cars_from_list_but_should_contains_cars(String carResults_1, String carResults_2) throws Exception{
+		CarTimestamp car_1 = carTserv.parseStringToCar(carResults_1);
+		CarTimestamp car_2 = carTserv.parseStringToCar(carResults_2);
+		boolean result_1 = false;
+		boolean result_2 = false;
 		
+		for (Map.Entry<Integer, CarTimestamp> entry : carTserv.getCarsTime().entrySet()) {
+			if(carTserv.carCompareCarTimestamp(entry.getValue(), car_1)) {
+				result_1 = true;
+			}
+			if(carTserv.carCompareCarTimestamp(entry.getValue(), car_2)) {
+				result_2 = true;
+			}
+		}
+		
+		assertTrue(result_1);
+		assertTrue(result_2);
 	}
 	
 }

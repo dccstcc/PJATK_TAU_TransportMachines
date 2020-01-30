@@ -10,7 +10,7 @@ import java.util.TreeMap;
 import pl.edu.pjatk.tau.domain.Car;
 import pl.edu.pjatk.tau.domain.CarTimestamp;
 
-public class TimestampService extends CarService implements ITimestampService, ISearchingService {
+public class TimestampService extends CarService implements ITimestampService, ISearchingService, IDeleteService {
 	
 	//CarTimestamp database
 	private TreeMap<Integer, CarTimestamp> carsT = new TreeMap<Integer, CarTimestamp>();
@@ -74,6 +74,11 @@ public class TimestampService extends CarService implements ITimestampService, I
 		}
 		
 		return ret;
+	}
+	
+	@Override
+	public int create(Car car) {
+		return(create(car, actualTime()));
 	}
 	
 	@Override
@@ -308,6 +313,64 @@ public class TimestampService extends CarService implements ITimestampService, I
 		
 		return car;
 	}
+	
+	///////
+	//
+	//	IDeleteService interface implementation
+	//
+	///////
+	
+	public ArrayList<CarTimestamp> getDelList() {
+		return this.toDeleteCars;
+	}
+	
+	public int deleteFromList(ArrayList<CarTimestamp> toDeleteList) {
+		int count = 0;
+		int idx = 0;
+		//loop for car delete list
+		for(CarTimestamp cdel : toDeleteList) {
+			
+			//interior loop for all cars into db
+ 			for (Map.Entry<Integer, CarTimestamp> entry : this.getCarsTime().entrySet()) {
+				//car comparision
+ 				if(this.carCompareCarTimestamp(cdel, entry.getValue())) {
+ 					//if cars are equals then remember id car from db
+ 					idx = entry.getKey();
+ 					count++;
+ 					break;
+ 				}
+			}
+ 			//remove car by id from db
+ 			this.getCarsTime().remove(idx);
+		}
+		
+		return count;
+	}
+	
+	@Override
+	public int delete(Car car) {
+		int count = 0;
+		int idx = 0;
+		
+		//loop for cars into database
+		for (Map.Entry<Integer, CarTimestamp> entry : this.getCarsTime().entrySet())  {
+			//car comparison
+			if(this.carCompareCarTimestamp(car, entry.getValue())) {
+				//if cars are equals then remember id car form db
+				idx = entry.getKey();
+				count = 1;
+				break;
+			}
+		}
+		
+		//delete car by id from database
+		this.getCarsTime().remove(idx);
+
+		//how many car was deleted
+		return count;
+	}
+
+ 
 	
 //	public CarTimestamp parseStringToCar(String carStr) {
 //		CarTimestamp car = new CarTimestamp();

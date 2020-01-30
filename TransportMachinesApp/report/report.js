@@ -588,7 +588,7 @@ formatter.step({
   "keyword": "Given "
 });
 formatter.match({
-  "location": "CarStepdefs.we_have_car_database()"
+  "location": "CarSearchStepdefs.we_have_car_database()"
 });
 formatter.result({
   "status": "passed"
@@ -598,7 +598,7 @@ formatter.step({
   "keyword": "And "
 });
 formatter.match({
-  "location": "CarStepdefs.we_add_car_into_database_as(String)"
+  "location": "CarSearchStepdefs.we_add_car_into_database_as(String)"
 });
 formatter.result({
   "status": "passed"
@@ -608,7 +608,7 @@ formatter.step({
   "keyword": "When "
 });
 formatter.match({
-  "location": "CarStepdefs.we_find_key_words_with_car_searcher_as(String)"
+  "location": "CarSearchStepdefs.we_find_key_words_with_car_searcher_as(String)"
 });
 formatter.result({
   "status": "passed"
@@ -618,7 +618,7 @@ formatter.step({
   "keyword": "Then "
 });
 formatter.match({
-  "location": "CarStepdefs.the_result_should_be(String)"
+  "location": "CarSearchStepdefs.the_result_should_be(String)"
 });
 formatter.result({
   "status": "passed"
@@ -633,7 +633,7 @@ formatter.step({
   "keyword": "Given "
 });
 formatter.match({
-  "location": "CarStepdefs.we_have_car_database()"
+  "location": "CarSearchStepdefs.we_have_car_database()"
 });
 formatter.result({
   "status": "passed"
@@ -643,7 +643,7 @@ formatter.step({
   "keyword": "And "
 });
 formatter.match({
-  "location": "CarStepdefs.we_add_car_into_database_as(String)"
+  "location": "CarSearchStepdefs.we_add_car_into_database_as(String)"
 });
 formatter.result({
   "status": "passed"
@@ -653,7 +653,7 @@ formatter.step({
   "keyword": "When "
 });
 formatter.match({
-  "location": "CarStepdefs.we_find_key_words_with_car_searcher_as(String)"
+  "location": "CarSearchStepdefs.we_find_key_words_with_car_searcher_as(String)"
 });
 formatter.result({
   "status": "passed"
@@ -663,7 +663,7 @@ formatter.step({
   "keyword": "Then "
 });
 formatter.match({
-  "location": "CarStepdefs.the_result_should_be(String)"
+  "location": "CarSearchStepdefs.the_result_should_be(String)"
 });
 formatter.result({
   "status": "passed"
@@ -678,7 +678,7 @@ formatter.step({
   "keyword": "Given "
 });
 formatter.match({
-  "location": "CarStepdefs.we_have_car_database()"
+  "location": "CarSearchStepdefs.we_have_car_database()"
 });
 formatter.result({
   "status": "passed"
@@ -688,7 +688,7 @@ formatter.step({
   "keyword": "And "
 });
 formatter.match({
-  "location": "CarStepdefs.we_add_car_into_database_as(String)"
+  "location": "CarSearchStepdefs.we_add_car_into_database_as(String)"
 });
 formatter.result({
   "status": "passed"
@@ -698,7 +698,7 @@ formatter.step({
   "keyword": "When "
 });
 formatter.match({
-  "location": "CarStepdefs.we_find_key_words_with_car_searcher_as(String)"
+  "location": "CarSearchStepdefs.we_find_key_words_with_car_searcher_as(String)"
 });
 formatter.result({
   "status": "passed"
@@ -708,7 +708,7 @@ formatter.step({
   "keyword": "Then "
 });
 formatter.match({
-  "location": "CarStepdefs.the_result_should_be(String)"
+  "location": "CarSearchStepdefs.the_result_should_be(String)"
 });
 formatter.result({
   "status": "passed"

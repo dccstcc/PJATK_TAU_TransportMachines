@@ -27,7 +27,7 @@ import cucumber.api.java.en.When;
 //BMW X5 PL 2019 white diesel automatic 280 E sport 200000
 //Citroen C5 FR 2010 grey petrol manual 200 C basic 90000
 
-public class CarStepdefs {
+public class CarSearchStepdefs {
 	TimestampService cars;
 	CarTimestamp carT;
 	static int id = 1;
